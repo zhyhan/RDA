@@ -1,10 +1,10 @@
 import tqdm
 import argparse
-from utils.config import Config
 from torch.autograd import Variable
 import torch
-
-
+import sys
+sys.path.insert(0, "/home/zhongyi/projects/da/RDA")
+from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
         self.gamma = gamma
@@ -51,58 +51,66 @@ def evaluate(model_instance, input_loader):
             all_labels = torch.cat((all_labels, labels), 0)
 
     _, predict = torch.max(all_probs, 1)
-    accuracy = torch.sum(torch.squeeze(predict).float() == all_labels) / float(all_labels.size()[0])
-
+    accuracy = torch.sum(torch.squeeze(predict).float() == all_labels).float() / float(all_labels.size()[0])
     model_instance.set_train(ori_train_state)
     return {'accuracy':accuracy}
 
-def train(model_instance, train_source_loader, train_target_loader, test_target_loader,
-          group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
+def train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval, del_rate=0.4):
     model_instance.set_train(True)
     print("start train...")
+    #model_instance.c_net.load_state_dict(torch.load('A2D_iter_10k.pth'))
+    loss = [] #accumulate total loss for visulization.
+    result = [] #accumulate eval result on target data during training.
     iter_num = 0
     epoch = 0
     total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
     while True:
-        for (datas, datat) in tqdm.tqdm(
-                zip(train_source_loader, train_target_loader),
-                total=min(len(train_source_loader), len(train_target_loader)),
+        for (datas_clean, datas_noisy, datat) in tqdm.tqdm(
+                zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
+                total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):
-            inputs_source, labels_source = datas
-            inputs_target, labels_target = datat
+            inputs_source, labels_source, _ = datas_clean
+            inputs_source_noisy, labels_source_noisy, _ = datas_noisy
+            inputs_target, labels_target, _ = datat
 
             optimizer = lr_scheduler.next_optimizer(group_ratios, optimizer, iter_num/5)
             optimizer.zero_grad()
 
             if model_instance.use_gpu:
-                inputs_source, inputs_target, labels_source = Variable(inputs_source).cuda(), Variable(
-                    inputs_target).cuda(), Variable(labels_source).cuda()
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source).cuda(),  Variable(inputs_source_noisy).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda(), Variable(labels_source_noisy).cuda()
             else:
-                inputs_source, inputs_target, labels_source = Variable(inputs_source), Variable(
-                    inputs_target), Variable(labels_source)
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source),  Variable(inputs_source_noisy), Variable(inputs_target), Variable(labels_source), Variable(labels_source_noisy)
 
-            train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer)
+            total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate)
 
-            # val
+            #val
             if iter_num % eval_interval == 0 and iter_num != 0:
                 eval_result = evaluate(model_instance, test_target_loader)
                 print(eval_result)
+                result.append(eval_result['accuracy'].cpu().data.numpy())
+
             iter_num += 1
             total_progress_bar.update(1)
+            loss.append(total_loss)
+
         epoch += 1
-        if iter_num >= max_iter:
+
+        if iter_num > max_iter:
             break
     print('finish train')
-
-def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer):
+    #torch.save(model_instance.c_net.state_dict(), 'statistic/Ours_model.pth')
+    return [loss, result]
+def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate):
     inputs = torch.cat((inputs_source, inputs_target), dim=0)
-    total_loss = model_instance.get_loss(inputs, labels_source)
-    total_loss.backward()
+    total_loss = model_instance.get_gradual_loss(inputs, labels_source, max_iter, del_rate=del_rate)
+    total_loss[0].backward()
     optimizer.step()
+    return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy(), total_loss[3].cpu().data.numpy(), total_loss[4].cpu().data.numpy()]
 
 if __name__ == '__main__':
-    from model.MDD import MDD
+    from model.ours import MDD
     from preprocess.data_provider import load_images
+    import pickle
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, help='all sets of configuration parameters',
@@ -113,10 +121,17 @@ if __name__ == '__main__':
                         help='address of image list of source dataset')
     parser.add_argument('--tgt_address', default=None, type=str,
                         help='address of image list of target dataset')
+    parser.add_argument('--stats_file', default=None, type=str,
+                        help='store the training loss and and validation acc')
+    parser.add_argument('--noisy_rate', default=None, type=float,
+                        help='noisy rate')
+    parser.add_argument('--del_rate', default=0.4, type=float,
+                        help='delete rate of sample for transfer')
+
     args = parser.parse_args()
 
     cfg = Config(args.config)
-
+    print(args)
     source_file = args.src_address
     target_file = args.tgt_address
 
@@ -132,6 +147,12 @@ if __name__ == '__main__':
         srcweight = 2
         is_cen = False
 
+    elif args.dataset == 'Bing-Caltech':
+        class_num = 257
+        width = 2048
+        srcweight = 2
+        is_cen = False
+
         # Another choice for Office-home:
         # width = 1024
         # srcweight = 3
@@ -140,14 +161,16 @@ if __name__ == '__main__':
         width = -1
 
     model_instance = MDD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
-
-    train_source_loader = load_images(source_file, batch_size=32, is_cen=is_cen)
+    if args.noisy_rate == 0.:
+        train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
+        train_source_noisy_loader = train_source_clean_loader
+    else:
+        train_source_clean_loader, train_source_noisy_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=True)
     train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)
     test_target_loader = load_images(target_file, batch_size=32, is_train=False)
 
     param_groups = model_instance.get_parameter_list()
     group_ratios = [group['lr'] for group in param_groups]
-
 
     assert cfg.optim.type == 'sgd', 'Optimizer type not supported!'
 
@@ -157,7 +180,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-
-    train(model_instance, train_source_loader, train_target_loader, test_target_loader, group_ratios,
-          max_iter=100000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
-
+    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=10000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000, del_rate=args.del_rate)
+    pickle.dump(to_dump, open(args.stats_file, 'wb'))

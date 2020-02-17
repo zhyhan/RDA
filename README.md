@@ -1,4 +1,4 @@
-# Margin Disparity Discrepancy
+# Robust Domain Adaptation 
 
 ## Prerequisites:
 
@@ -22,14 +22,5 @@ You can run "./scripts/train.sh" to train and evaluate on the task. Before that,
 
 If you use this code for your research, please consider citing:
 
-```
-@inproceedings{MDD_ICML_19,
-  title={Bridging Theory and Algorithm for Domain Adaptation},
-  author={Zhang, Yuchen and Liu, Tianle and Long, Mingsheng and Jordan, Michael},
-  booktitle={International Conference on Machine Learning},
-  pages={7404--7413},
-  year={2019}
-}
-```
 ## Contact
-If you have any problem about our code, feel free to contact zhangyuc17@mails.tsinghua.edu.cn.
+If you have any problem about our code, feel free to contact hanzhongyicn@gmail.com

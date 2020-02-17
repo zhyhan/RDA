@@ -8,14 +8,14 @@ from PIL import Image
 import torch.utils.data as data
 import os
 import os.path
-
+import cv2
 
 def make_dataset(image_list, labels):
     if labels:
       len_ = len(image_list)
       images = [(image_list[i].strip(), labels[i, :]) for i in range(len_)]
     else:
-      if len(image_list[0].split()) > 2:
+      if len(image_list[0].split()) > 3:
         images = [(val.split()[0], np.array([int(la) for la in val.split()[1:]])) for val in image_list]
       else:
         images = [(val.split()[0], int(val.split()[1])) for val in image_list]
@@ -44,7 +44,6 @@ def default_loader(path):
     #    return accimage_loader(path)
     #else:
         return pil_loader(path)
-
 
 class ImageList(object):
     """A generic data loader where the images are arranged in this way: ::
@@ -92,8 +91,8 @@ class ImageList(object):
             img = self.transform(img)
         if self.target_transform is not None:
             target = self.target_transform(target)
-
-        return img, target
+        #TODO return true target labels
+        return img, target, index
 
     def __len__(self):
         return len(self.imgs)
