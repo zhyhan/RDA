@@ -91,7 +91,7 @@ if __name__ == '__main__':
     if listing_file:
         import glob
         domains = ['Art', 'Clipart', 'Product', 'Real_world']
-        data_dir = '/home/zhongyi/datasets/office/office-home/'
+        data_dir = '/home/hanzhongyi/datasets/office/office-home/'
         save_dir = 'Office-home/'
         for d in domains:
             str_labels, num_labels = [], []
