@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="D2A"
 SOURCE="dslr"
@@ -25,7 +25,7 @@ python trainer/baseline.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="A2D"
 SOURCE="amazon"
@@ -48,7 +48,7 @@ python trainer/baseline.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="D2W"
 SOURCE="dslr"
@@ -73,7 +73,7 @@ python trainer/baseline.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="W2D"
 SOURCE="webcam"
@@ -96,7 +96,7 @@ python trainer/baseline.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -119,7 +119,7 @@ python trainer/baseline.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="W2A"
 SOURCE="webcam"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="TCL"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -24,7 +24,7 @@ python trainer/TCL_train.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="TCL"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -47,7 +47,7 @@ python trainer/TCL_train.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="TCL"
 PROJ_NAME="A2W"
 SOURCE="amazon"

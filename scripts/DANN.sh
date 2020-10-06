@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 xport CUDA_VISIBLE_DEVICES=3
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="DANN"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -24,7 +24,7 @@ python trainer/DANN_train.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=3
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="DANN"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -47,7 +47,7 @@ python trainer/DANN_train.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=3
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="DANN"
 PROJ_NAME="A2W"
 SOURCE="amazon"

@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=2
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="A2W"
 SOURCE="amazon"

@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Ar2Cl"
 SOURCE="Art"
@@ -28,7 +28,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Ar2Pr"
 SOURCE="Art"
@@ -54,7 +54,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Ar2Rw"
 SOURCE="Art"
@@ -80,7 +80,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Cl2Ar"
 SOURCE="Clipart"
@@ -106,7 +106,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Cl2Pr"
 SOURCE="Clipart"
@@ -132,7 +132,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Cl2Rw"
 SOURCE="Clipart"
@@ -158,7 +158,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Pr2Ar"
 SOURCE="Product"
@@ -184,7 +184,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Pr2Cl"
 SOURCE="Product"
@@ -210,7 +210,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Pr2Rw"
 SOURCE="Product"
@@ -236,7 +236,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Rw2Ar"
 SOURCE="Real_world"
@@ -262,7 +262,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Rw2Cl"
 SOURCE="Real_world"
@@ -288,7 +288,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/zhongyi/projects/da/RDA"
+PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="Rw2Pr"
 SOURCE="Real_world"
