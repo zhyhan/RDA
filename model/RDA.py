@@ -68,7 +68,7 @@ class MDDNet(nn.Module):
 
         return features, outputs, softmax_outputs, outputs_adv
 
-class MDD(object):
+class PMD(object):
     def __init__(self, base_net='ResNet50', width=1024, class_num=31, use_bottleneck=True, use_gpu=True, srcweight=3):
         self.c_net = MDDNet(base_net, use_bottleneck, width, width, class_num)
         self.use_gpu = use_gpu

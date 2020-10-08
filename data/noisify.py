@@ -1,3 +1,8 @@
+
+
+
+
+
 import os
 import numpy as np
 from numpy.testing import assert_array_almost_equal
@@ -86,7 +91,6 @@ def sp_blur_noise(image):
 
 
 if __name__ == '__main__':
-
     # listing source files into txt if not exists.
     listing_file = False
     if listing_file:
@@ -123,7 +127,7 @@ if __name__ == '__main__':
     class_number = 65
     noisy_rate = [0.2,0.4,0.6,0.8]
     noisy_type = ['uniform', 'pair']
-    corrupt_image = False
+    corrupt_image = True
     for data_file in data_files:
         with open(data_file, 'r') as f:
             file_dir, label = [], []
@@ -138,6 +142,7 @@ if __name__ == '__main__':
                 save_path = path.split('.')[0] + '_corrupted.jpg'
                 image.save(save_path)
             print('complete corrupting images!')
+
         #noisy label
         """
         for tp in noisy_type:

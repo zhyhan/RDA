@@ -19,7 +19,6 @@ class INVScheduler(object):
             i+=1
         return optimizer
 
-
 #==============eval
 def evaluate(model_instance, input_loader):
     ori_train_state = model_instance.is_train
@@ -108,7 +107,7 @@ def train_batch(model_instance, inputs_source, labels_source, inputs_target, opt
     return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy(), total_loss[3].cpu().data.numpy(), total_loss[4].cpu().data.numpy()]
 
 if __name__ == '__main__':
-    from model.ours import MDD
+    from model.RDA import PMD
     from preprocess.data_provider import load_images
     import pickle
 
@@ -152,7 +151,6 @@ if __name__ == '__main__':
         width = 2048
         srcweight = 2
         is_cen = False
-
         # Another choice for Office-home:
         # width = 1024
         # srcweight = 3
@@ -160,7 +158,7 @@ if __name__ == '__main__':
     else:
         width = -1
 
-    model_instance = MDD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
+    model_instance = PMD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
     if args.noisy_rate == 0.:
         train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
         train_source_noisy_loader = train_source_clean_loader
