@@ -121,8 +121,8 @@ if __name__ == '__main__':
                 for i, img in enumerate(img_files):
                     f.write('{} {}\n'.format(img, num_labels[i]))
 
-    data_files = ['Office-home/Art.txt', 'Office-home/Clipart.txt', 'Office-home/Product.txt', 'Office-home/Real_world.txt']
-    #data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
+    #data_files = ['Office-home/Art.txt', 'Office-home/Clipart.txt', 'Office-home/Product.txt', 'Office-home/Real_world.txt']
+    data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
     #class_number = 31
     class_number = 65
     noisy_rate = [0.2,0.4,0.6,0.8]
@@ -137,10 +137,11 @@ if __name__ == '__main__':
 
         if corrupt_image:
             for path in tqdm.tqdm(file_dir):
-                image = pil_loader(path)
-                image = sp_blur_noise(image)
                 save_path = path.split('.')[0] + '_corrupted.jpg'
-                image.save(save_path)
+                if not os.path.isfile(save_path):
+                    image = pil_loader(path)
+                    image = sp_blur_noise(image)
+                    image.save(save_path)
             print('complete corrupting images!')
 
         #noisy label

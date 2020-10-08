@@ -10,7 +10,7 @@ do
     SOURCE=$i
     NOISY_TYPE="feature_uniform" #uniform, pair, none
     NOISY_RATE="0.4"
-    DATASET="Office-Home"
+    DATASET="Office-home"
 
     LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
     STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"

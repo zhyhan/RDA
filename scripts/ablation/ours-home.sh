@@ -9,7 +9,7 @@ SOURCE="Art"
 TARGET="Clipart"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
-DATASET="Office-Home"
+DATASET="Office-home"
 DEL_RATE="0.2"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
@@ -35,7 +35,7 @@ SOURCE="Art"
 TARGET="Product"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
-DATASET="Office-Home"
+DATASET="Office-home"
 DEL_RATE="0.2"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
@@ -62,7 +62,7 @@ TARGET="Real_world"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -88,7 +88,7 @@ TARGET="Art"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -114,7 +114,7 @@ TARGET="Product"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -140,7 +140,7 @@ TARGET="Real_world"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -166,7 +166,7 @@ TARGET="Art"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -192,7 +192,7 @@ TARGET="Clipart"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -218,7 +218,7 @@ TARGET="Real_world"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -244,7 +244,7 @@ TARGET="Art"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -270,7 +270,7 @@ TARGET="Clipart"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -296,7 +296,7 @@ TARGET="Product"
 NOISY_TYPE="feature_uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0.2"
-DATASET="Office-Home"
+DATASET="Office-home"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"

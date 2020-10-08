@@ -1,3 +1,7 @@
+"""
+This code is to select out label-noisy examples according to the small loss criterion.  
+"""
+
 import tqdm
 import argparse
 import numpy as np
@@ -19,7 +23,6 @@ class INVScheduler(object):
             param_group['lr'] = lr * group_ratios[i]
             i+=1
         return optimizer
-
 
 #==============eval
 def evaluate(model_instance, input_loader, loss_matrix, epoch):
@@ -139,7 +142,7 @@ if __name__ == '__main__':
         width = 1024
         srcweight = 4
         is_cen = False
-    elif args.dataset == 'Office-Home':
+    elif args.dataset == 'Office-home':
         class_num = 65
         width = 2048
         srcweight = 2

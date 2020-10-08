@@ -109,6 +109,8 @@ venv.bak/
 # mkdocs documentation
 /site
 
+unsuccessful_method.py
+
 # mypy
 .mypy_cache/
 >>>>>>> 35c979010037aec871d97f637cb8e50a47533eb3

@@ -137,7 +137,7 @@ if __name__ == '__main__':
         width = 256
         srcweight = 4
         is_cen = False
-    elif args.dataset == 'Office-Home':
+    elif args.dataset == 'Office-home':
         class_num = 65
         width = 256
         srcweight = 2

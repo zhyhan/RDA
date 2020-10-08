@@ -3,7 +3,6 @@ import model.backbone as backbone
 import torch.nn.functional as F
 import torch
 import numpy as np
-import random
 
 class GradientReverseLayer(torch.autograd.Function):
     def __init__(self, iter_num=0, alpha=1.0, low_value=0.0, high_value=0.1, max_iter=1000.0):
@@ -24,9 +23,9 @@ class GradientReverseLayer(torch.autograd.Function):
         return -self.coeff * grad_output
 
 
-class MDDNet(nn.Module):
+class RDANet(nn.Module):
     def __init__(self, base_net='ResNet50', use_bottleneck=True, bottleneck_dim=1024, width=1024, class_num=31):
-        super(MDDNet, self).__init__()
+        super(RDANet, self).__init__()
         ## set base network
         self.base_network = backbone.network_dict[base_net]()
         self.use_bottleneck = use_bottleneck
@@ -70,7 +69,7 @@ class MDDNet(nn.Module):
 
 class PMD(object):
     def __init__(self, base_net='ResNet50', width=1024, class_num=31, use_bottleneck=True, use_gpu=True, srcweight=3):
-        self.c_net = MDDNet(base_net, use_bottleneck, width, width, class_num)
+        self.c_net = RDANet(base_net, use_bottleneck, width, width, class_num)
         self.use_gpu = use_gpu
         self.is_train = False
         self.iter_num = 0
@@ -79,31 +78,7 @@ class PMD(object):
             self.c_net = self.c_net.cuda()
         self.srcweight = srcweight
 
-    def get_loss(self, inputs, labels_source):
-        class_criterion = nn.CrossEntropyLoss()
-        _, outputs, _, outputs_adv = self.c_net(inputs)
-        classifier_loss = class_criterion(outputs.narrow(0, 0, labels_source.size(0)), labels_source)
-
-        target_adv = outputs.max(1)[1]
-        target_adv_src = target_adv.narrow(0, 0, labels_source.size(0))
-        target_adv_tgt = target_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
-
-        classifier_loss_adv_src = class_criterion(outputs_adv.narrow(0, 0, labels_source.size(0)), target_adv_src)
-
-        logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0)), dim = 1), min=1e-15)) #add small value to avoid the log value expansion
-
-        classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
-
-        transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
-
-        outputs_target = outputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
-        #en_loss = entropy(outputs_target)
-        self.iter_num += 1
-        total_loss = classifier_loss + transfer_loss #+ 0.1*en_loss
-        #print(classifier_loss.data, transfer_loss.data, en_loss.data)
-        return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
-
-    def get_gradual_loss(self, inputs, labels_source, max_iter, del_rate=0.4):
+    def get_loss(self, inputs, labels_source, max_iter, del_rate=0.4):
         class_criterion = nn.CrossEntropyLoss()
 
         #mixup inputs between source and target data
@@ -144,7 +119,6 @@ class PMD(object):
         #loss_adv_mix_2 = class_criterion(outputs_adv_mix, target_adv_mix)
         #logloss_mix = torch.log(torch.clamp(1 - F.softmax(outputs_adv_mix, dim = 1), min=1e-15))
         #loss_adv_mix_1 = F.nll_loss(logloss_mix, target_adv_mix)
-
         #transfer_loss = self.srcweight * classifier_loss_adv_src - loss_adv_mix_2 + self.srcweight * loss_adv_mix_2 + classifier_loss_adv_tgt
         transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
 
