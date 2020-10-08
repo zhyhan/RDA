@@ -6,6 +6,7 @@ from PIL import Image
 import random
 import cv2
 import tqdm
+
 def multiclass_noisify(y, T, random_state=0):
     """
     Flip classes according to transition probability matrix T.
@@ -91,7 +92,7 @@ if __name__ == '__main__':
     if listing_file:
         import glob
         domains = ['Art', 'Clipart', 'Product', 'Real_world']
-        data_dir = '/home/hanzhongyi/datasets/office/office-home/'
+        data_dir = '/data1/hanzhongyi/datasets/office/office-home/'
         save_dir = 'Office-home/'
         for d in domains:
             str_labels, num_labels = [], []
@@ -115,8 +116,6 @@ if __name__ == '__main__':
             with open(save_file,'w') as f:
                 for i, img in enumerate(img_files):
                     f.write('{} {}\n'.format(img, num_labels[i]))
-
-
 
     data_files = ['Office-home/Art.txt', 'Office-home/Clipart.txt', 'Office-home/Product.txt', 'Office-home/Real_world.txt']
     #data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
