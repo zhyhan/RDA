@@ -55,7 +55,6 @@ class RDANet(nn.Module):
                             {"params":self.bottleneck_layer.parameters(), "lr":1},
                         {"params":self.classifier_layer.parameters(), "lr":1},
                                {"params":self.classifier_layer_2.parameters(), "lr":1}]
-
     def forward(self, inputs):
         features = self.base_network(inputs)
         if self.use_bottleneck:

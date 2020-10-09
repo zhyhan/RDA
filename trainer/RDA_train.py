@@ -3,7 +3,7 @@ import argparse
 from torch.autograd import Variable
 import torch
 import sys
-sys.path.insert(0, "/home/hanzhongyi/projects/da/RDA")
+sys.path.insert(0, "/home/hanzhongyi/projects/RDA")
 from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
@@ -37,8 +37,7 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities = model_instance.predict(inputs)
-
+        probabilities, _ = model_instance.predict(inputs)
         probabilities = probabilities.data.float()
         labels = labels.data.float()
         if first_test:
