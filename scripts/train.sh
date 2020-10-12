@@ -22,6 +22,6 @@ python trainer/RDA_train.py \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
-    --noisy_rate ${NOISY_RATE} \ 
+    --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
  #   >> ${LOG_FILE}  2>&1
