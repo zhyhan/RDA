@@ -226,9 +226,9 @@ if __name__ == '__main__':
             
             with open(save_file,'w') as f:
                     for i, d in enumerate(file_dir):
-                        f.write('{} {}\n'.format(d, label[i]))
+                        f.write('{} {} {}\n'.format(d, label[i], label[i]))
                     for i, d in enumerate(new_file_dir):
-                        f.write('{} {}\n'.format(d, new_label[i]))
+                        f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
 
         """
         #Todo mix: feature noise + label noise

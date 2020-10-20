@@ -3,7 +3,7 @@ import argparse
 from torch.autograd import Variable
 import torch
 import sys
-sys.path.insert(0, "/home/hanzhongyi/projects/da/RDA")
+sys.path.insert(0, "/home/hanzhongyi/projects/RDA")
 from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
@@ -38,7 +38,7 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities = model_instance.predict(inputs)
+        probabilities, _ = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -167,5 +167,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=50000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
+    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=10000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
     pickle.dump(to_dump, open(args.stats_file, 'wb'))

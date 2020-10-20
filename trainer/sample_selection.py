@@ -8,7 +8,7 @@ import numpy as np
 from torch.autograd import Variable
 import torch
 import sys
-sys.path.insert(0, "/home/hanzhongyi/projects/da/RDA")
+sys.path.insert(0, "/home/hanzhongyi/projects/RDA")
 from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
@@ -178,7 +178,7 @@ if __name__ == '__main__':
                                 init_lr=cfg.init_lr)
     loss_matrix = train(model_instance, train_source_loader, test_source_loader, group_ratios, max_iter=120000, optimizer=optimizer, lr_scheduler=lr_scheduler, max_epoch=epoch)
     np.save(args.stats_file, loss_matrix)
-    """
+
     #detect small loss sample
     save_clean_file = source_file.split('.t')[0] + '_true_pred.txt'
     nr = args.noisy_rate
@@ -198,6 +198,21 @@ if __name__ == '__main__':
                     clean_labels.append(1)
                 else:
                     clean_labels.append(0)
+    elif args.noisy_type == 'ood':
+        with open(source_file, 'r') as f:
+            images = f.readlines()
+            for index, i in enumerate(images):
+                i =  i.split()
+                img = i[0]
+                imgs.append(img)
+                noisy_label = i[1]
+                clean_label = i[2]
+                noise_labels.append(int(noisy_label))
+                if noisy_label == clean_label:
+                    clean_labels.append(1)
+                else:
+                    clean_labels.append(0)
+
     elif args.noisy_type == 'feature':
         with open(source_file, 'r') as f:
             images = f.readlines()
@@ -260,4 +275,3 @@ if __name__ == '__main__':
                     f.write('{} {}\n'.format(img, noise_labels[idx]))
                 else:
                     ff.write('{} {}\n'.format(img, noise_labels[idx]))
-    """

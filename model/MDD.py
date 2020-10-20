@@ -102,3 +102,14 @@ class MDD(object):
         total_loss = classifier_loss + transfer_loss #+ 0.1*en_loss
         #print(classifier_loss.data, transfer_loss.data, en_loss.data)
         return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
+
+    def predict(self, inputs):
+        feature, _, softmax_outputs,_= self.c_net(inputs)
+        return softmax_outputs, feature
+
+    def get_parameter_list(self):
+        return self.c_net.parameter_list
+
+    def set_train(self, mode):
+        self.c_net.train(mode)
+        self.is_train = mode
