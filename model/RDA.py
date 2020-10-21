@@ -77,13 +77,13 @@ class PMD(object):
             self.c_net = self.c_net.cuda()
         self.srcweight = srcweight
 
-    def get_loss(self, inputs, labels_source, max_iter, del_rate=0.4):
+    def get_loss(self, inputs, labels_source, max_iter, del_rate=0.4, noisy_source_num=100):
         class_criterion = nn.CrossEntropyLoss()
 
-        #mixup inputs between source and target data
-        #TODO Random concat samples into new distribution.
-        source_input = inputs.narrow(0, 0, labels_source.size(0))
-        target_input = inputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+        #introduce noisy source instances to improve the discrepancy
+        # inputs = torch.cat((inputs_source, inputs_target, labels_source_noisy), dim=0)
+        source_size, source_noisy_size, target_size = labels_source.size(0), noisy_source_num, \
+            inputs.size(0) - labels_source.size(0) - noisy_source_num
 
         #gradual transition
         lr = linear_rampup(self.iter_num, total_iter=max_iter)
@@ -93,32 +93,27 @@ class PMD(object):
         #compute cross entropy loss on source domain
         #classifier_loss = class_criterion(outputs.narrow(0, 0, labels_source.size(0)), labels_source)
         #get large loss samples index
-        outputs_src = outputs.narrow(0, 0, labels_source.size(0))
-        classifier_loss, index_src = class_rank_criterion(outputs_src, labels_source, target_input.size(0), lr, del_rate)
+        outputs_src = outputs.narrow(0, 0, source_size)
+        classifier_loss, index_src = class_rank_criterion(outputs_src, labels_source, lr, del_rate)
 
         #compute discrepancy
         target_adv = outputs.max(1)[1]
-        target_adv_src = target_adv.narrow(0, 0, labels_source.size(0))
-        target_adv_tgt = target_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
-        #target_adv_mix = torch.cat((target_adv_src[index_src], target_adv_tgt[index_tgt]), dim=0)
+        target_adv_src = target_adv.narrow(0, 0, source_size)
+        target_adv_tgt = target_adv.narrow(0, source_size, target_size)
+        target_adv_noisy = target_adv.narrow(0, source_size+target_size, source_noisy_size)
 
-        outputs_adv_src = outputs_adv.narrow(0, 0, labels_source.size(0))
-        outputs_adv_tgt = outputs_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
-        #outputs_adv_mix = torch.cat((outputs_adv_src[index_src], outputs_adv_tgt[index_tgt]), dim=0)
-
-        #print(target_adv_mix, outputs_adv_mix)
+        outputs_adv_src = outputs_adv.narrow(0, 0, source_size)
+        outputs_adv_tgt = outputs_adv.narrow(0, source_size, target_size)
+        outputs_adv_noisy = outputs_adv.narrow(0, source_size+target_size, source_noisy_size)
 
         outputs_adv_src = outputs_adv_src[index_src]
         target_adv_src = target_adv_src[index_src]
-        classifier_loss_adv_src = class_criterion(outputs_adv_src, target_adv_src)
+        classifier_loss_adv_src = class_criterion(torch.cat((outputs_adv_src,outputs_adv_noisy),dim=0), \
+            torch.cat((target_adv_src,target_adv_noisy),dim=0))
 
         logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv_tgt, dim = 1), min=1e-15))
         classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
 
-        #loss_adv_mix_2 = class_criterion(outputs_adv_mix, target_adv_mix)
-        #logloss_mix = torch.log(torch.clamp(1 - F.softmax(outputs_adv_mix, dim = 1), min=1e-15))
-        #loss_adv_mix_1 = F.nll_loss(logloss_mix, target_adv_mix)
-        #transfer_loss = self.srcweight * classifier_loss_adv_src - loss_adv_mix_2 + self.srcweight * loss_adv_mix_2 + classifier_loss_adv_tgt
         transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
 
         self.iter_num += 1
@@ -137,7 +132,7 @@ class PMD(object):
         self.c_net.train(mode)
         self.is_train = mode
 
-def class_rank_criterion(outputs_source, labels_source, tgt_size, lr, del_rate):
+def class_rank_criterion(outputs_source, labels_source, lr, del_rate):
     if lr > del_rate:
         lr = del_rate
     remove_num = torch.ceil(torch.tensor(labels_source.size(0)*lr))

@@ -79,7 +79,7 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
             else:
                 inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source),  Variable(inputs_source_noisy), Variable(inputs_target), Variable(labels_source), Variable(labels_source_noisy)
 
-            total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate)
+            total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate, inputs_source_noisy)
 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
@@ -98,9 +98,10 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
     print('finish train')
     #torch.save(model_instance.c_net.state_dict(), 'statistic/Ours_model.pth')
     return [loss, result]
-def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate):
-    inputs = torch.cat((inputs_source, inputs_target), dim=0)
-    total_loss = model_instance.get_loss(inputs, labels_source, max_iter, del_rate=del_rate)
+
+def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, max_iter, del_rate, inputs_source_noisy):
+    inputs = torch.cat((inputs_source, inputs_target, inputs_source_noisy), dim=0)
+    total_loss = model_instance.get_loss(inputs, labels_source, max_iter, del_rate=del_rate, noisy_source_num=len(inputs_source_noisy))
     total_loss[0].backward()
     optimizer.step()
     return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy(), total_loss[3].cpu().data.numpy(), total_loss[4].cpu().data.numpy()]
