@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Ar2Cl"
 SOURCE="Art"
@@ -26,7 +26,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Ar2Pr"
 SOURCE="Art"
@@ -50,7 +50,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Ar2Rw"
 SOURCE="Art"
@@ -74,7 +74,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Cl2Ar"
 SOURCE="Clipart"
@@ -98,7 +98,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Cl2Pr"
 SOURCE="Clipart"
@@ -122,7 +122,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Cl2Rw"
 SOURCE="Clipart"
@@ -146,7 +146,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Pr2Ar"
 SOURCE="Product"
@@ -170,7 +170,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Pr2Cl"
 SOURCE="Product"
@@ -194,7 +194,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Pr2Rw"
 SOURCE="Product"
@@ -218,7 +218,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Rw2Ar"
 SOURCE="Real_world"
@@ -242,7 +242,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Rw2Cl"
 SOURCE="Real_world"
@@ -266,7 +266,7 @@ python trainer/MDD_train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="Rw2Pr"
 SOURCE="Real_world"

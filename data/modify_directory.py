@@ -6,11 +6,11 @@ import glob
 import os
 from types import new_class
 
-txt_file_dir = '/home/hanzhongyi/projects/RDA/data/*/*.txt'
+txt_file_dir = '/home/ubuntu/nas/projects/RDA/data/*/*.txt'
 txt_files = glob.glob(txt_file_dir)
 
-old_str = '/home/zhongyi'
-new_str = '/data1/hanzhongyi'
+old_str = '/data1/hanzhongyi'
+new_str = '/home/ubuntu/nas'
 
 def alter(file, old_str, new_str):
     """

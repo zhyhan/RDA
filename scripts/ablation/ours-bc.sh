@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="B2C"
 SOURCE="Bing"
@@ -27,7 +27,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final"
 PROJ_NAME="B2C"
 SOURCE="Bing"

@@ -71,7 +71,7 @@ def load_images(images_file_path, batch_size, resize_size=256, is_train=True, cr
             clean_images = ImageList(open(images_file_path.split('.t')[0]+'_true_pred.txt').readlines(), transform=transformer)
             noisy_images = ImageList(open(images_file_path.split('.t')[0]+'_false_pred.txt').readlines(), transform=transformer)
             clean_loader = util_data.DataLoader(clean_images, batch_size=batch_size, shuffle=True, num_workers=4)
-            noisy_loader = util_data.DataLoader(noisy_images, batch_size=int(batch_size/2), shuffle=True, num_workers=4)
+            noisy_loader = util_data.DataLoader(noisy_images, batch_size=int(batch_size), shuffle=True, num_workers=4)
             return clean_loader, noisy_loader
         else:
             images = ImageList(open(images_file_path).readlines(), transform=transformer)

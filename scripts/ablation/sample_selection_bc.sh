@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=2
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="sample_selection"
 SOURCE="Bing"
 NOISY_TYPE="feature_uniform" #uniform, pair, none

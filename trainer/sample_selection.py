@@ -8,7 +8,7 @@ import numpy as np
 from torch.autograd import Variable
 import torch
 import sys
-sys.path.insert(0, "/home/hanzhongyi/projects/RDA")
+sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
 from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):

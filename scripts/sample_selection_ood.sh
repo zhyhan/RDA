@@ -3,7 +3,7 @@ for i in 0.2 0.4 0.6 0.8
 do
     export CUDA_VISIBLE_DEVICES=2
 
-    PROJ_ROOT="/home/hanzhongyi/projects/RDA"
+    PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
     ALGORITHM="sample_selection"
     SOURCE="amazon"
     NOISY_TYPE="ood" #uniform, pair, none,feature_uniform

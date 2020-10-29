@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -25,7 +25,7 @@ python trainer/feature_vis.py \
 
 #export CUDA_VISIBLE_DEVICES=0
 #
-#PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+#PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 #ALGORITHM="TCL"
 #PROJ_NAME="A2W"
 #SOURCE="amazon"
@@ -48,7 +48,7 @@ python trainer/feature_vis.py \
 #
 #export CUDA_VISIBLE_DEVICES=0
 #
-#PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+#PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 #ALGORITHM="DANN"
 #PROJ_NAME="A2W"
 #SOURCE="amazon"
@@ -71,7 +71,7 @@ python trainer/feature_vis.py \
 #
 #export CUDA_VISIBLE_DEVICES=0
 #
-#PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+#PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 #ALGORITHM="Ours"
 #PROJ_NAME="A2W"
 #SOURCE="amazon"

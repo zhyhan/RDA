@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=2
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="D2A"
 SOURCE="dslr"
@@ -25,7 +25,7 @@ python trainer/feature.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=2
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="A2D"
 SOURCE="amazon"
@@ -48,7 +48,7 @@ python trainer/feature.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=2
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="D2W"
 SOURCE="dslr"
@@ -73,7 +73,7 @@ python trainer/feature.py \
 
 export CUDA_VISIBLE_DEVICES=2
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="W2D"
 SOURCE="webcam"
@@ -96,7 +96,7 @@ python trainer/feature.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=2
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -119,7 +119,7 @@ python trainer/feature.py \
     >> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=2
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_remove_loss"
 PROJ_NAME="W2A"
 SOURCE="webcam"

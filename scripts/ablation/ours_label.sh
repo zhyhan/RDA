@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="A2W"
 SOURCE="amazon"
@@ -27,7 +27,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="W2A"
 SOURCE="webcam"
@@ -52,7 +52,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="A2D"
 SOURCE="amazon"
@@ -78,7 +78,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="D2A"
 SOURCE="dslr"
@@ -104,7 +104,7 @@ python trainer/train.py \
 
 xport CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="W2D"
 SOURCE="webcam"
@@ -130,7 +130,7 @@ python trainer/train.py \
 
 export CUDA_VISIBLE_DEVICES=3
 
-PROJ_ROOT="/home/hanzhongyi/projects/da/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/da/RDA"
 ALGORITHM="ours_final_class_independent"
 PROJ_NAME="D2W"
 SOURCE="dslr"

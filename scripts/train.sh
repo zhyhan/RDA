@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 
-PROJ_ROOT="/home/hanzhongyi/projects/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
 ALGORITHM="RDA"
-PROJ_NAME="W2A"
-SOURCE="webcam"
-TARGET="amazon"
+PROJ_NAME="A2D"
+SOURCE="amazon"
+TARGET="dslr"
 NOISY_TYPE="uniform" #uniform, pair, none
 NOISY_RATE="0.4"
 DEL_RATE="0"
@@ -24,4 +24,4 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    #>> ${LOG_FILE}  2>&1
+#    >> ${LOG_FILE}  2>&1

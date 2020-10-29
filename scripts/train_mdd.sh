@@ -2,7 +2,7 @@
 
 export CUDA_VISIBLE_DEVICES=1
 
-PROJ_ROOT="/home/hanzhongyi/projects/RDA"
+PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
 ALGORITHM="MDD"
 PROJ_NAME="A2W"
 SOURCE="amazon"
