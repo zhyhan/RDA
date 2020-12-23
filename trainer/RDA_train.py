@@ -166,7 +166,7 @@ if __name__ == '__main__':
         train_source_noisy_loader = train_source_clean_loader
     else:
         train_source_clean_loader, train_source_noisy_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=True)
-    train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)
+    train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen) #is_cen means preprocess of center crop.
     test_target_loader = load_images(target_file, batch_size=32, is_train=False)
 
     param_groups = model_instance.get_parameter_list()

@@ -108,8 +108,9 @@ class PMD(object):
 
         outputs_adv_src = outputs_adv_src[index_src]
         target_adv_src = target_adv_src[index_src]
-        classifier_loss_adv_src = class_criterion(torch.cat((outputs_adv_src,outputs_adv_noisy),dim=0), \
-            torch.cat((target_adv_src,target_adv_noisy),dim=0))
+        #classifier_loss_adv_src = class_criterion(torch.cat((outputs_adv_src, outputs_adv_noisy),dim=0), \
+        #    torch.cat((target_adv_src, target_adv_noisy), dim=0))
+        classifier_loss_adv_src = class_criterion(outputs_adv_src, target_adv_src)
 
         logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv_tgt, dim = 1), min=1e-15))
         classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
@@ -133,6 +134,55 @@ class PMD(object):
     def set_train(self, mode):
         self.c_net.train(mode)
         self.is_train = mode
+
+    def get_loss_without_unlabeled_data(self, inputs, labels_source, max_iter, del_rate=0.4):
+        class_criterion = nn.CrossEntropyLoss()
+
+        #mixup inputs between source and target data
+        #TODO Random concat samples into new distribution.
+        #source_input = inputs.narrow(0, 0, labels_source.size(0))
+        #target_input = inputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+
+        #gradual transition
+        lr = linear_rampup(self.iter_num, total_iter=max_iter)
+
+        _, outputs, _, outputs_adv = self.c_net(inputs)
+
+        #compute cross entropy loss on source domain
+        #classifier_loss = class_criterion(outputs.narrow(0, 0, labels_source.size(0)), labels_source)
+        #get large loss samples index
+        outputs_src = outputs.narrow(0, 0, labels_source.size(0))
+        classifier_loss, index_src = class_rank_criterion(outputs_src, labels_source, lr, del_rate)
+
+        #compute discrepancy
+        target_adv = outputs.max(1)[1]
+        target_adv_src = target_adv.narrow(0, 0, labels_source.size(0))
+        target_adv_tgt = target_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+        #target_adv_mix = torch.cat((target_adv_src[index_src], target_adv_tgt[index_tgt]), dim=0)
+
+        outputs_adv_src = outputs_adv.narrow(0, 0, labels_source.size(0))
+        outputs_adv_tgt = outputs_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+        #outputs_adv_mix = torch.cat((outputs_adv_src[index_src], outputs_adv_tgt[index_tgt]), dim=0)
+
+        #print(target_adv_mix, outputs_adv_mix)
+
+        outputs_adv_src = outputs_adv_src[index_src]
+        target_adv_src = target_adv_src[index_src]
+        classifier_loss_adv_src = class_criterion(outputs_adv_src, target_adv_src)
+
+        logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv_tgt, dim = 1), min=1e-15))
+        classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
+
+        #loss_adv_mix_2 = class_criterion(outputs_adv_mix, target_adv_mix)
+        #logloss_mix = torch.log(torch.clamp(1 - F.softmax(outputs_adv_mix, dim = 1), min=1e-15))
+        #loss_adv_mix_1 = F.nll_loss(logloss_mix, target_adv_mix)
+        #transfer_loss = self.srcweight * classifier_loss_adv_src - loss_adv_mix_2 + self.srcweight * loss_adv_mix_2 + classifier_loss_adv_tgt
+        transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
+
+        self.iter_num += 1
+        total_loss = classifier_loss + transfer_loss #+ 0.1*en_loss
+        #print(classifier_loss.data, transfer_loss.data, en_loss.data)
+        return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
 
 def class_rank_criterion(outputs_source, labels_source, lr, del_rate):
     if lr > del_rate:

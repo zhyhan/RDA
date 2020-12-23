@@ -31,7 +31,14 @@ def listing_file(domains, data_dir, save_dir):
             for i, img in enumerate(img_files):
                 f.write('{} {}\n'.format(img, num_labels[i]))
 
+def prepare_imagenet():
+    dataset_dir = '/home/ubuntu/nas/datasets/imagenet/tiny-imagenet-200/*/*/images/*'
+    save_filename = 'tinyimagenet.txt'
 
+    img_files = glob.glob(dataset_dir)
+    with open(save_filename,'w') as f:
+            for i, img in enumerate(img_files):
+                f.write('{}\n'.format(img))
 def multiclass_noisify(y, T, random_state=0):
     """
     Flip classes according to transition probability matrix T.
@@ -118,7 +125,7 @@ def corrupt_image(file_dir):
             image.save(save_path)
     print('complete corrupting images!')
 
-#def ood_noise():
+
 
 
 if __name__ == '__main__':
@@ -128,32 +135,33 @@ if __name__ == '__main__':
         class_number = 65
         data_files = ['Office-home/Art.txt', 'Office-home/Clipart.txt', 'Office-home/Product.txt', 'Office-home/Real_world.txt']
         domains = ['Art', 'Clipart', 'Product', 'Real_world']
-        data_dir = '/data1/hanzhongyi/datasets/office/office-home/'
+        data_dir = '/home/ubuntu/nas/datasets/office/office-home/'
         save_dir = 'Office-home/'
     elif dataset is 'office-31':
         class_number = 31
         data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
         domains = ['webcam', 'dslr', 'amazon']
-        data_dir = '/data1/hanzhongyi/datasets/office/office-31/'
+        data_dir = '/home/ubuntu/nas/datasets/office/office-31/'
         save_dir = 'Office-31/'
     else:
         raise Exception("Sorry, unsupported dataset")
 
-    listing_file = False
-    corrupt_image = False
-
+    listing = False
+    corrupt_feature = False
+    pre_imagenet = False
 
     #listing source files of images into text if not exists.
-    if listing_file:
+    if listing:
         listing_file(domains, data_dir, save_dir)
-    
+    if pre_imagenet:
+        prepare_imagenet()
     for data_file in data_files: #Read text files
         with open(data_file, 'r') as f:
             file_dir, label = [], []
             for i in f.read().splitlines():
                 file_dir.append(i.split(' ')[0])
                 label.append(int(i.split(' ')[1]))
-        if corrupt_image:
+        if corrupt_feature:
             corrupt_image(file_dir)
 
         #Todo: noisy label
@@ -202,13 +210,13 @@ if __name__ == '__main__':
             print('feature noise true/given {}/{}'.format(float(num)/len(file_dir), rate))
         print('complete corrupting features!')
         """
+    
         #Todo: introduce out-of-distribution (ood) noise
-        ood_dataset = "Bing-Caltech/Caltech.txt" #Introduce other dataset for providing 
+        ood_dataset = "tinyimagenet.txt" #Introduce other dataset
         with open(ood_dataset, 'r') as f:
             ood_file_dir, ood_label = [], []
             for i in f.read().splitlines():
-                ood_file_dir.append(i.split(' ')[0])
-                ood_label.append(int(i.split(' ')[1]))
+                ood_file_dir.append(i)
         ood_noisy_rate = [0.1,0.2,0.3,0.4,0.6,0.8]
         for rate in ood_noisy_rate:
             save_file = data_file.split('.')[0] + '_ood_noisy_{}.txt'.format(rate)
@@ -229,7 +237,7 @@ if __name__ == '__main__':
                         f.write('{} {} {}\n'.format(d, label[i], label[i]))
                     for i, d in enumerate(new_file_dir):
                         f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
-
+                        
         """
         #Todo mix: feature noise + label noise
         for rate in noisy_rate:

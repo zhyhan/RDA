@@ -40,6 +40,8 @@ class MDDNet(nn.Module):
                                         nn.Linear(width, class_num)]
         self.classifier_layer_2 = nn.Sequential(*self.classifier_layer_2_list)
         self.softmax = nn.Softmax(dim=1)
+        self.temperature = nn.Parameter((torch.ones(1)*1.5).cuda())
+       #self.temperature = nn.Parameter(torch.ones(1).cuda())
 
         ## initialization
         self.bottleneck_layer[0].weight.data.normal_(0, 0.005)
@@ -57,6 +59,9 @@ class MDDNet(nn.Module):
                         {"params":self.classifier_layer.parameters(), "lr":1},
                                {"params":self.classifier_layer_2.parameters(), "lr":1}]
 
+    def T_scaling(self, logits, temperature):
+        temperature = temperature.unsqueeze(1).expand(logits.size(0), logits.size(1))
+        return logits / temperature
     def forward(self, inputs):
         features = self.base_network(inputs)
         if self.use_bottleneck:
@@ -64,9 +69,13 @@ class MDDNet(nn.Module):
         features_adv = self.grl_layer(features)
         outputs_adv = self.classifier_layer_2(features_adv)
         outputs = self.classifier_layer(features)
+        #TODO: add temperature scaling
+        #softmax_outputs = self.softmax(self.T_scaling(outputs, self.temperature))
         softmax_outputs = self.softmax(outputs)
 
         return features, outputs, softmax_outputs, outputs_adv
+
+
 
 class MDD(object):
     def __init__(self, base_net='ResNet50', width=1024, class_num=31, use_bottleneck=True, use_gpu=True, srcweight=3):
@@ -87,8 +96,8 @@ class MDD(object):
         return classifier_loss
 
     def predict(self, inputs):
-        _, _, softmax_outputs,_= self.c_net(inputs)
-        return softmax_outputs
+        features, _, softmax_outputs,_= self.c_net(inputs)
+        return softmax_outputs, features
 
     def get_parameter_list(self):
         return self.c_net.parameter_list
