@@ -19,7 +19,6 @@ build/
 develop-eggs/
 dist/
 log/
-statistic/
 downloads/
 eggs/
 .eggs/
@@ -62,6 +61,8 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.pkl
+*.npy
 local_settings.py
 db.sqlite3
 

@@ -10,6 +10,8 @@ import torch
 import sys
 sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
 from utils.config import Config
+import warnings
+warnings.filterwarnings("ignore")
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
         self.gamma = gamma
@@ -42,7 +44,7 @@ def evaluate(model_instance, input_loader, loss_matrix, epoch):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities = model_instance.predict(inputs)
+        probabilities, _ = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -180,9 +182,9 @@ if __name__ == '__main__':
     np.save(args.stats_file, loss_matrix)
 
     #detect small loss sample
-    save_clean_file = source_file.split('.t')[0] + '_true_pred.txt'
+    save_clean_file = source_file.split('.t')[0] + '_clean_pred.txt'
     nr = args.noisy_rate
-    save_noisy_file = source_file.split('.t')[0] + '_false_pred.txt'
+    save_noisy_file = source_file.split('.t')[0] + '_noisy_pred.txt'
     clean_labels, noise_labels, imgs = [], [], []
     if args.noisy_type == 'uniform':
         with open(source_file, 'r') as f:

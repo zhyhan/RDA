@@ -3,7 +3,7 @@
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RDA_V2"
+ALGORITHM="RDA_V1"
 PROJ_NAME="A2W"
 SOURCE="amazon"
 TARGET="webcam"
@@ -16,7 +16,7 @@ LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
 echo "GPU: $CUDA_VISIBLE_DEVICES" > ${LOG_FILE}
-python trainer/RDA_train.py \
+python trainer/RDA_train_without_unlabeled_data.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \

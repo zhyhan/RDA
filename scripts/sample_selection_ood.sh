@@ -1,7 +1,7 @@
 for i in 0.2 0.4 0.6 0.8
 
 do
-    export CUDA_VISIBLE_DEVICES=2
+    export CUDA_VISIBLE_DEVICES=0
 
     PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
     ALGORITHM="sample_selection"

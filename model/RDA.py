@@ -116,7 +116,7 @@ class PMD(object):
         classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
 
         #Todo: compute entropy loss of unlabeled examples.
-        en_loss = entropy(outputs_adv_tgt) + entropy(outputs_adv_noisy)
+        en_loss = entropy(outputs_adv_tgt) + entropy(outputs_adv_noisy) #+ entropy(outputs_adv_src)
         transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
 
         self.iter_num += 1
