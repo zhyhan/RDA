@@ -66,14 +66,12 @@ class MDDNet(nn.Module):
         features = self.base_network(inputs)
         if self.use_bottleneck:
             features = self.bottleneck_layer(features)
-        features_adv = self.grl_layer(features)
-        outputs_adv = self.classifier_layer_2(features_adv)
         outputs = self.classifier_layer(features)
         #TODO: add temperature scaling
         #softmax_outputs = self.softmax(self.T_scaling(outputs, self.temperature))
         softmax_outputs = self.softmax(outputs)
 
-        return features, outputs, softmax_outputs, outputs_adv
+        return features, outputs, softmax_outputs
 
 
 
@@ -90,14 +88,14 @@ class MDD(object):
 
     def get_loss(self, inputs, labels_source):
         class_criterion = nn.CrossEntropyLoss()
-        _, outputs, _, _ = self.c_net(inputs)
+        _, outputs, _, = self.c_net(inputs)
         classifier_loss = class_criterion(outputs, labels_source)
 
         return classifier_loss
 
     def predict(self, inputs):
-        features, _, softmax_outputs,_= self.c_net(inputs)
-        return softmax_outputs, features
+        features, logits, softmax_outputs = self.c_net(inputs)
+        return features, logits, softmax_outputs
 
     def get_parameter_list(self):
         return self.c_net.parameter_list

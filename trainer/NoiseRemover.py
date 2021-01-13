@@ -23,6 +23,7 @@ class INVScheduler(object):
             i+=1
         return optimizer
 
+T = 1
 #==============eval
 def evaluate(model_instance, input_loader):
     ori_train_state = model_instance.is_train
@@ -41,12 +42,15 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities, features = model_instance.predict(inputs)
-        probabilities = probabilities.data.float()
+        features, logits, softmax_outputs = model_instance.predict(inputs)
+        probabilities = softmax_outputs.data.float()
         features = features.data.float()
         labels = labels.data.float()
+        logits = logits.data.float()
+        energy_score = - T*torch.logsumexp(logits / T, dim=1)
         if first_test:
             all_probs = probabilities
+            all_energy_score = energy_score
             all_feats = features
             all_labels = labels
             first_test = False
@@ -54,13 +58,15 @@ def evaluate(model_instance, input_loader):
             all_probs = torch.cat((all_probs, probabilities), 0)
             all_feats = torch.cat((all_feats, features), 0)
             all_labels = torch.cat((all_labels, labels), 0)
+            all_energy_score = torch.cat((all_energy_score, energy_score), 0)
 
     prob_matrix = all_probs.cpu().numpy()
     all_feats = all_feats.cpu().numpy()
+    all_energy_score = all_energy_score.cpu().numpy()
     _, predict = torch.max(all_probs, 1)
     accuracy = torch.sum(torch.squeeze(predict).float() == all_labels).float() / float(all_labels.size()[0])
     model_instance.set_train(ori_train_state)
-    return {'accuracy':accuracy}, prob_matrix, all_feats
+    return {'accuracy':accuracy}, prob_matrix, all_feats, all_energy_score
 
 def train(model_instance, train_source_clean_loader, train_source_noisy_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval, del_rate=0.4, class_num=31):
     model_instance.set_train(True)
@@ -87,7 +93,7 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
-                eval_result, _, _ = evaluate(model_instance, train_source_clean_loader)
+                eval_result, _, _, all_energy_score = evaluate(model_instance, train_source_clean_loader)
                 print(eval_result)
             iter_num += 1
             total_progress_bar.update(1)
@@ -95,12 +101,13 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
 
         if iter_num > max_iter:
             break
-    eval_result, prob_matrix, all_feats = evaluate(model_instance, train_source_noisy_loader)
-    print(eval_result)
-    print(prob_matrix)
+    eval_result, prob_matrix, all_feats, all_energy_score = evaluate(model_instance, train_source_noisy_loader)
+    print('accuracy:', eval_result)
+    print('prob matrix:', prob_matrix)
+    print('energy score:', all_energy_score)
     print('finish train')
     #torch.save(model_instance.c_net.state_dict(), 'statistic/Ours_model.pth')
-    return prob_matrix, all_feats
+    return prob_matrix, all_feats, all_energy_score
 
 def train_batch(model_instance, inputs_source, labels_source, optimizer):
     inputs = inputs_source
@@ -178,5 +185,19 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump, all_feats = train(model_instance, train_source_clean_loader, train_source_noisy_loader, group_ratios, max_iter=10000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000, del_rate=args.del_rate, class_num=class_num)
-    pickle.dump(all_feats, open(args.stats_file, 'wb'))
+    to_dump, all_feats, all_energy_score = train(model_instance, train_source_clean_loader, train_source_noisy_loader, group_ratios, max_iter=10000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000, del_rate=args.del_rate, class_num=class_num)
+    pickle.dump(all_energy_score, open(args.stats_file, 'wb'))
+
+    source_file_new = source_file.split('.t')[0]+'_clean_pred.txt'
+    save_file = source_file.split('.t')[0]+'_false_pred_refine.txt'
+    with open(source_file_new, 'r') as f:
+        file_dir, label = [], []
+        for i in f.read().splitlines():
+            file_dir.append(i.split(' ')[0])
+            label.append(int(i.split(' ')[1]))
+
+    with open(save_file,'w') as f:
+        for i, d in enumerate(all_energy_score):
+            if d < np.sort(all_energy_score)[int(len(all_energy_score)/2)]:#select top 1/6 data as clean data. TODO
+                f.write('{} {}\n'.format(file_dir[i], label[i]))
+

@@ -3,6 +3,7 @@ import argparse
 from torch.autograd import Variable
 import torch
 import warnings
+import random
 warnings.filterwarnings("ignore")
 import sys
 sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
@@ -65,13 +66,19 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
     epoch = 0
     total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
     while True:
-        for (datas_clean, datas_noisy, datat) in tqdm.tqdm(
-                zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
+        datas_noisy =  iter(train_source_noisy_loader)
+        for (datas_clean, datat) in tqdm.tqdm(
+                zip(train_source_clean_loader, train_target_loader),
                 total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):
+            try:
+                inputs_source_noisy, labels_source_noisy, _ = datas_noisy.next()
+            except:
+                #datas_noisy =  iter(train_source_noisy_loader)
+                inputs_source_noisy, labels_source_noisy, _ = datas_clean
             inputs_source, labels_source, _ = datas_clean
-            inputs_source_noisy, labels_source_noisy, _ = datas_noisy
-            inputs_target, labels_target, _ = datat
+            
+            inputs_target, _, _ = datat
 
             optimizer = lr_scheduler.next_optimizer(group_ratios, optimizer, iter_num/5)
             optimizer.zero_grad()
@@ -135,7 +142,6 @@ if __name__ == '__main__':
     print(args)
     source_file = args.src_address
     target_file = args.tgt_address
-
 
     if args.dataset == 'Office-31':
         class_num = 31

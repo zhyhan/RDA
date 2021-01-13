@@ -110,7 +110,7 @@ def train_batch(model_instance, inputs_source, labels_source, inputs_target, opt
 
 if __name__ == '__main__':
     from model.RDA import PMD
-    from preprocess.data_provider_new import load_images
+    from preprocess.data_provider import load_images
     import pickle
 
     parser = argparse.ArgumentParser()

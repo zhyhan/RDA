@@ -44,7 +44,7 @@ def evaluate(model_instance, input_loader, loss_matrix, epoch):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities, _ = model_instance.predict(inputs)
+        _, _, probabilities = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -182,9 +182,9 @@ if __name__ == '__main__':
     np.save(args.stats_file, loss_matrix)
 
     #detect small loss sample
-    save_clean_file = source_file.split('.t')[0] + '_clean_pred.txt'
+    save_clean_file = source_file.split('.t')[0] + '_true_pred.txt'
     nr = args.noisy_rate
-    save_noisy_file = source_file.split('.t')[0] + '_noisy_pred.txt'
+    save_noisy_file = source_file.split('.t')[0] + '_false_pred.txt'
     clean_labels, noise_labels, imgs = [], [], []
     if args.noisy_type == 'uniform':
         with open(source_file, 'r') as f:
@@ -214,7 +214,20 @@ if __name__ == '__main__':
                     clean_labels.append(1)
                 else:
                     clean_labels.append(0)
-
+    elif args.noisy_type == 'ood_uniform':
+        with open(source_file, 'r') as f:
+            images = f.readlines()
+            for index, i in enumerate(images):
+                i =  i.split()
+                img = i[0]
+                imgs.append(img)
+                noisy_label = i[1]
+                clean_label = i[2]
+                noise_labels.append(int(noisy_label))
+                if noisy_label == clean_label:
+                    clean_labels.append(1)
+                else:
+                    clean_labels.append(0)
     elif args.noisy_type == 'feature':
         with open(source_file, 'r') as f:
             images = f.readlines()
@@ -230,6 +243,21 @@ if __name__ == '__main__':
                     clean_labels.append(0)
 
     elif args.noisy_type == 'feature_uniform':
+        nr = nr/2
+        with open(source_file, 'r') as f:
+            images = f.readlines()
+            for index, i in enumerate(images):
+                i =  i.split()
+                img = i[0]
+                imgs.append(img)
+                noisy_label = i[1]
+                clean_label = i[2]
+                noise_labels.append(int(noisy_label))
+                if noisy_label == clean_label:
+                    clean_labels.append(1)
+                else:
+                    clean_labels.append(0)
+    elif args.noisy_type == 'ood_feature':
         nr = nr/2
         with open(source_file, 'r') as f:
             images = f.readlines()

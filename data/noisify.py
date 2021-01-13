@@ -126,11 +126,10 @@ def corrupt_image(file_dir):
     print('complete corrupting images!')
 
 
-
-
 if __name__ == '__main__':
 
-    dataset = 'office-31' # or office-home
+    dataset = 'office-home' # or office-home
+
     if dataset is 'office-home':
         class_number = 65
         data_files = ['Office-home/Art.txt', 'Office-home/Clipart.txt', 'Office-home/Product.txt', 'Office-home/Real_world.txt']
@@ -212,6 +211,7 @@ if __name__ == '__main__':
         """
     
         #Todo: introduce out-of-distribution (ood) noise
+        """
         ood_dataset = "tinyimagenet.txt" #Introduce other dataset
         with open(ood_dataset, 'r') as f:
             ood_file_dir, ood_label = [], []
@@ -237,6 +237,7 @@ if __name__ == '__main__':
                         f.write('{} {} {}\n'.format(d, label[i], label[i]))
                     for i, d in enumerate(new_file_dir):
                         f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
+        """
                         
         """
         #Todo mix: feature noise + label noise
@@ -272,4 +273,101 @@ if __name__ == '__main__':
                             else:
                                 ff.write('{} {}\n'.format(d, label_noisy[i]))
         """ 
+        #TODO mix: label noise + OOD noise
+        # ood_dataset = "tinyimagenet.txt" #Introduce other dataset
+        # with open(ood_dataset, 'r') as f:
+        #     ood_file_dir, ood_label = [], []
+        #     for i in f.read().splitlines():
+        #         ood_file_dir.append(i)
+        # ood_noisy_rate = [0.4]
+        # for rate in ood_noisy_rate:
+        #     label_noise_file = data_file.split('.')[0] + '_uniform_noisy_{}.txt'.format(rate/2)
+        #     with open(label_noise_file, 'r') as f:
+        #         noisy_file_dir, noisy_label = [], []
+        #         for i in f.read().splitlines():
+        #             noisy_file_dir.append(i.split(' ')[0])
+        #             noisy_label.append(int(i.split(' ')[1]))
+        #     save_file = data_file.split('.')[0] + '_ood_uniform_noisy_{}.txt'.format(rate)
+        #     #know every class number and add %rate
+        #     num_per_class = np.zeros(class_number)
+        #     for i in label:
+        #         num_per_class[i] += 1
+        #     rate = rate/2
+        #     num_per_class = np.ceil(num_per_class*(rate/(1-rate)))
+        #     random.shuffle(ood_file_dir)
+        #     new_file_dir = ood_file_dir[:int(num_per_class.sum())]
+        #     new_label = []
+        #     for i, j in enumerate(num_per_class):
+        #         new_label.extend([i]*int(j))
+            
+        #     with open(save_file,'w') as f:
+        #             for i, d in enumerate(noisy_file_dir):
+        #                 f.write('{} {} {}\n'.format(d, noisy_label[i], noisy_label[i]))
+        #             for i, d in enumerate(new_file_dir):
+        #                 f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
+
+        #TODO mix: feature noise + OOD noise
+        # ood_dataset = "tinyimagenet.txt" #Introduce other dataset
+        # with open(ood_dataset, 'r') as f:
+        #     ood_file_dir, ood_label = [], []
+        #     for i in f.read().splitlines():
+        #         ood_file_dir.append(i)
+        # ood_noisy_rate = [0.4]
+        # for rate in ood_noisy_rate:
+        #     feature_noise_file = data_file.split('.')[0] + '_feature_noisy_{}.txt'.format(rate/2)
+        #     with open(feature_noise_file, 'r') as f:
+        #         noisy_file_dir, noisy_label = [], []
+        #         for i in f.read().splitlines():
+        #             noisy_file_dir.append(i.split(' ')[0])
+        #             noisy_label.append(int(i.split(' ')[1]))
+        #     save_file = data_file.split('.')[0] + '_ood_feature_noisy_{}.txt'.format(rate)
+        #     #know every class number and add %rate
+        #     num_per_class = np.zeros(class_number)
+        #     for i in label:
+        #         num_per_class[i] += 1
+        #     rate = rate/2
+        #     num_per_class = np.ceil(num_per_class*(rate/(1-rate)))
+        #     random.shuffle(ood_file_dir)
+        #     new_file_dir = ood_file_dir[:int(num_per_class.sum())]
+        #     new_label = []
+        #     for i, j in enumerate(num_per_class):
+        #         new_label.extend([i]*int(j))
+            
+        #     with open(save_file,'w') as f:
+        #             for i, d in enumerate(noisy_file_dir):
+        #                 f.write('{} {} {}\n'.format(d, noisy_label[i], noisy_label[i]))
+        #             for i, d in enumerate(new_file_dir):
+        #                 f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
+    
         #Todo mix: feature noise + label noise + ood noise
+        ood_dataset = "tinyimagenet.txt" #Introduce other dataset
+        with open(ood_dataset, 'r') as f:
+            ood_file_dir, ood_label = [], []
+            for i in f.read().splitlines():
+                ood_file_dir.append(i)
+        ood_noisy_rate = [0.6]
+        for rate in ood_noisy_rate:
+            mixed_noise_file = data_file.split('.')[0] + '_feature_uniform_noisy_{}.txt'.format(0.4)
+            with open(mixed_noise_file, 'r') as f:
+                noisy_file_dir, noisy_label = [], []
+                for i in f.read().splitlines():
+                    noisy_file_dir.append(i.split(' ')[0])
+                    noisy_label.append(int(i.split(' ')[1]))
+            save_file = data_file.split('.')[0] + '_ood_feature_uniform_noisy_{}.txt'.format(rate)
+            #know every class number and add %rate
+            num_per_class = np.zeros(class_number)
+            for i in label:
+                num_per_class[i] += 1
+            rate = 0.2
+            num_per_class = np.ceil(num_per_class*(rate/(1-rate)))
+            random.shuffle(ood_file_dir)
+            new_file_dir = ood_file_dir[:int(num_per_class.sum())]
+            new_label = []
+            for i, j in enumerate(num_per_class):
+                new_label.extend([i]*int(j))
+            
+            with open(save_file,'w') as f:
+                    for i, d in enumerate(noisy_file_dir):
+                        f.write('{} {} {}\n'.format(d, noisy_label[i], noisy_label[i]))
+                    for i, d in enumerate(new_file_dir):
+                        f.write('{} {} {}\n'.format(d, new_label[i], class_number+1))
