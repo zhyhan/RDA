@@ -1,0 +1,16 @@
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/keyboard/frame_0003.jpg 11
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/mouse/frame_0012_corrupted.jpg 16
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/mug/frame_0005_corrupted.jpg 17
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/punchers/frame_0018.jpg 23
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/desktop_computer/frame_0004_corrupted.jpg 8
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/desktop_computer/frame_0006_corrupted.jpg 8
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/speaker/frame_0023_corrupted.jpg 27
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/mobile_phone/frame_0020_corrupted.jpg 14
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/mobile_phone/frame_0029_corrupted.jpg 14
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/letter_tray/frame_0006_corrupted.jpg 13
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/trash_can/frame_0004_corrupted.jpg 30
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/trash_can/frame_0005.jpg 30
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/bike_helmet/frame_0001.jpg 2
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/headphones/frame_0011.jpg 10
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/desk_lamp/frame_0007.jpg 7
+/home/ubuntu/nas/datasets/office/office-31/dslr/images/desk_chair/frame_0013.jpg 6

@@ -54,8 +54,8 @@ export CUDA_VISIBLE_DEVICES=0
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
 ALGORITHM="sample_selection"
 SOURCE="amazon"
-NOISY_TYPE="ood_feature" #uniform, pair, none,feature_uniform
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DATASET="Office-31"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
@@ -76,8 +76,8 @@ export CUDA_VISIBLE_DEVICES=0
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
 ALGORITHM="sample_selection"
 SOURCE="webcam"
-NOISY_TYPE="ood_feature" #uniform, pair, none,feature_uniform
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DATASET="Office-31"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
@@ -97,8 +97,8 @@ export CUDA_VISIBLE_DEVICES=0
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
 ALGORITHM="sample_selection"
 SOURCE="dslr"
-NOISY_TYPE="ood_feature" #uniform, pair, none,feature_uniform
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DATASET="Office-31"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"

@@ -68,7 +68,7 @@ def load_images(images_file_path, batch_size, resize_size=256, is_train=True, cr
                   transforms.ToTensor(),
                   normalize])
         if split_noisy:
-            clean_images = ImageList(open(images_file_path.split('.t')[0]+'_clean_pred.txt').readlines(), transform=transformer)
+            clean_images = ImageList(open(images_file_path.split('.t')[0]+'_true_pred.txt').readlines(), transform=transformer)
             noisy_images = ImageList(open(images_file_path.split('.t')[0]+'_false_pred_refine.txt').readlines(), transform=transformer)
             clean_loader = util_data.DataLoader(clean_images, batch_size=batch_size, shuffle=True, num_workers=4)
             noisy_loader = util_data.DataLoader(noisy_images, batch_size=int(batch_size), shuffle=True, num_workers=4)

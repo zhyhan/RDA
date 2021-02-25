@@ -7,8 +7,8 @@ ALGORITHM="RDA_V2"
 PROJ_NAME="refine_amazon"
 SOURCE="amazon"
 TARGET="amazon"
-NOISY_TYPE="ood_uniform" #uniform, pair, none
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DEL_RATE="0"
 DATASET="Office-31"
 
@@ -32,8 +32,8 @@ ALGORITHM="RDA_V2"
 PROJ_NAME="refine_webcam"
 SOURCE="webcam"
 TARGET="webcam"
-NOISY_TYPE="ood_uniform" #uniform, pair, none
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DEL_RATE="0"
 DATASET="Office-31"
 
@@ -57,8 +57,8 @@ ALGORITHM="RDA_V2"
 PROJ_NAME="refine_dslr"
 SOURCE="dslr"
 TARGET="dslr"
-NOISY_TYPE="ood_uniform" #uniform, pair, none
-NOISY_RATE="0.4"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+NOISY_RATE="0.6"
 DEL_RATE="0"
 DATASET="Office-31"
 

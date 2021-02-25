@@ -188,7 +188,7 @@ if __name__ == '__main__':
     to_dump, all_feats, all_energy_score = train(model_instance, train_source_clean_loader, train_source_noisy_loader, group_ratios, max_iter=10000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000, del_rate=args.del_rate, class_num=class_num)
     pickle.dump(all_energy_score, open(args.stats_file, 'wb'))
 
-    source_file_new = source_file.split('.t')[0]+'_clean_pred.txt'
+    source_file_new = source_file.split('.t')[0]+'_false_pred.txt'
     save_file = source_file.split('.t')[0]+'_false_pred_refine.txt'
     with open(source_file_new, 'r') as f:
         file_dir, label = [], []
@@ -198,6 +198,6 @@ if __name__ == '__main__':
 
     with open(save_file,'w') as f:
         for i, d in enumerate(all_energy_score):
-            if d < np.sort(all_energy_score)[int(len(all_energy_score)/2)]:#select top 1/6 data as clean data. TODO
+            if d < np.sort(all_energy_score)[int(len(all_energy_score)/6)]:#select top 1/6 data as clean data. TODO
                 f.write('{} {}\n'.format(file_dir[i], label[i]))
 

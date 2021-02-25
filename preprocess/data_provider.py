@@ -41,7 +41,7 @@ class TransformTwice:
         return out1, out2
 
 
-def load_images(images_file_path, batch_size, resize_size=256, is_train=True, crop_size=224, is_cen=False, split_noisy=False, drop_last=False):
+def load_images(images_file_path, batch_size, resize_size=256, is_train=True, crop_size=224, is_cen=False, split_noisy=False, drop_last=True):
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
     if not is_train:
         start_center = (resize_size - crop_size - 1) / 2
@@ -68,8 +68,8 @@ def load_images(images_file_path, batch_size, resize_size=256, is_train=True, cr
                   transforms.ToTensor(),
                   normalize])
         if split_noisy:
-            clean_images = ImageList(open(images_file_path.split('.t')[0]+'_clean_pred.txt').readlines(), transform=transformer)
-            noisy_images = ImageList(open(images_file_path.split('.t')[0]+'_noisy_pred.txt').readlines(), transform=transformer)
+            clean_images = ImageList(open(images_file_path.split('.t')[0]+'_true_pred.txt').readlines(), transform=transformer)
+            noisy_images = ImageList(open(images_file_path.split('.t')[0]+'_false_pred.txt').readlines(), transform=transformer)
             clean_loader = util_data.DataLoader(clean_images, batch_size=batch_size, shuffle=True, num_workers=4)
             noisy_loader = util_data.DataLoader(noisy_images, batch_size=batch_size, shuffle=False, num_workers=4)
             return clean_loader, noisy_loader

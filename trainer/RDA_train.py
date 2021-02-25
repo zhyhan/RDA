@@ -3,7 +3,6 @@ import argparse
 from torch.autograd import Variable
 import torch
 import warnings
-import random
 warnings.filterwarnings("ignore")
 import sys
 sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")

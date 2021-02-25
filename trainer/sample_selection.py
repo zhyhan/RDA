@@ -257,8 +257,23 @@ if __name__ == '__main__':
                     clean_labels.append(1)
                 else:
                     clean_labels.append(0)
+    elif args.noisy_type == 'ood_feature_uniform':
+        nr = 0.4
+        with open(source_file, 'r') as f:
+            images = f.readlines()
+            for index, i in enumerate(images):
+                i =  i.split()
+                img = i[0]
+                imgs.append(img)
+                noisy_label = i[1]
+                clean_label = i[2]
+                noise_labels.append(int(noisy_label))
+                if noisy_label == clean_label:
+                    clean_labels.append(1)
+                else:
+                    clean_labels.append(0)
     elif args.noisy_type == 'ood_feature':
-        nr = nr/2
+        nr = nr
         with open(source_file, 'r') as f:
             images = f.readlines()
             for index, i in enumerate(images):
