@@ -1,4 +1,4 @@
-import tqdm
+from tqdm import tqdm
 import argparse
 from torch.autograd import Variable
 import torch
@@ -64,9 +64,9 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
     result = [] #accumulate eval result on target data during training.
     iter_num = 0
     epoch = 0
-    total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
+    total_progress_bar = tqdm(desc='Train iter', total=max_iter)
     while True:
-        for (datas_clean, datas_noisy, datat) in tqdm.tqdm(
+        for (datas_clean, datas_noisy, datat) in tqdm(
                 zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
                 total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):

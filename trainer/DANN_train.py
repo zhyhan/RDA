@@ -2,8 +2,10 @@ import tqdm
 import argparse
 from torch.autograd import Variable
 import torch
+import warnings
+warnings.filterwarnings("ignore")
 import sys
-sys.path.insert(0, "/home/ubuntu/nas/projects/da/RDA")
+sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
 from utils.config import Config
 class INVScheduler(object):
     def __init__(self, gamma, decay_rate, init_lr=0.001):
@@ -38,7 +40,7 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities = model_instance.predict(inputs)
+        probabilities, _ = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -98,6 +100,7 @@ def train(model_instance, train_source_loader, train_target_loader, test_target_
     print('finish train')
     #torch.save(model_instance.c_net.state_dict(), 'statistic/DANN_model.pth')
     return [loss, result]
+    
 def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter):
     inputs = torch.cat((inputs_source, inputs_target), dim=0)
     total_loss = model_instance.get_loss(inputs, labels_source)
@@ -166,5 +169,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump = train(model_instance, train_source_loader, train_target_loader, test_target_loader, group_ratios, max_iter=20000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
+    to_dump = train(model_instance, train_source_loader, train_target_loader, test_target_loader, group_ratios, max_iter=20000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000) 
     pickle.dump(to_dump, open(args.stats_file, 'wb'))
