@@ -3,12 +3,13 @@
 Code release for "Towards Accurate and Robust Domain Adaptation under Noisy Environments"
 ## Prerequisites:
 
-* Python3
-* PyTorch ==0.3.1 (with suitable CUDA and CuDNN version)
+* Python == 3.7.6
+* PyTorch ==1.2.0 (with suitable CUDA and CuDNN version)
 * torchvision == 0.2.0
 * Numpy
 * argparse
-* PIL
+* easydict
+* pillow = 8.1.0
 * tqdm
 
 ## Dataset:
@@ -23,11 +24,19 @@ You can run "./scripts/train.sh" to train and evaluate on the task. Before that,
 
 If you use this code for your research, please consider citing:
 ```
-@article{han2020towards,
-  title={Towards Accurate and Robust Domain Adaptation under Noisy Environments},
-  author={Han, Zhongyi and Gui, Xian-Jin and Cui, Chaoran and Yin, Yilong},
-  journal={arXiv preprint arXiv:2004.12529},
-  year={2020}
+@inproceedings{ijcai2020-314,
+  title     = {Towards Accurate and Robust Domain Adaptation under Noisy Environments},
+  author    = {Han, Zhongyi and Gui, Xian-Jin and Cui, Chaoran and Yin, Yilong},
+  booktitle = {Proceedings of the Twenty-Ninth International Joint Conference on
+               Artificial Intelligence, {IJCAI-20}},
+  publisher = {International Joint Conferences on Artificial Intelligence Organization},             
+  editor    = {Christian Bessiere},	
+  pages     = {2269--2276},
+  year      = {2020},
+  month     = {7},
+  note      = {Main track}
+  doi       = {10.24963/ijcai.2020/314},
+  url       = {https://doi.org/10.24963/ijcai.2020/314},
 }
 ```
 ## Contact
