@@ -3,7 +3,6 @@ import model.backbone as backbone
 import torch.nn.functional as F
 import torch
 import numpy as np
-import random
 
 class GradientReverseLayer(torch.autograd.Function):
     def __init__(self, iter_num=0, alpha=1.0, low_value=0.0, high_value=0.1, max_iter=1000.0):
