@@ -39,7 +39,8 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities, _ = model_instance.predict(inputs)
+        input_source = inputs
+        probabilities = model_instance.predict(inputs, input_source)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -108,7 +109,7 @@ def train_batch(model_instance, inputs_source, labels_source, inputs_target, opt
     return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy()]
 
 if __name__ == '__main__':
-    from model.DAN import DAN
+    from model.RTN import RTN
     from preprocess.data_provider import load_images
     import pickle
 
@@ -151,7 +152,7 @@ if __name__ == '__main__':
     else:
         width = -1
 
-    model_instance = DAN(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
+    model_instance = RTN(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
 
     train_source_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
     train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)

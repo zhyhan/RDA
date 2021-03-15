@@ -1,3 +1,4 @@
+"Reprouce Unsupervised Domain Adaptation with Residual Transfer Networks"
 from typing import Optional, Sequence, Tuple, List, Dict
 import torch
 import torch.nn as nn
@@ -11,39 +12,91 @@ from qpsolvers import solve_qp
 
 __all__ = ['MultipleKernelMaximumMeanDiscrepancy', 'ImageClassifier']
 
-class DANNet(nn.Module):
+class RTNNet(nn.Module):
     def __init__(self, base_net='ResNet50', use_bottleneck=True, bottleneck_dim=256, width=256, class_num=31):
-        super(DANNet, self).__init__()
+        super(RTNNet, self).__init__()
         ## set base network
         self.backbone = backbone.network_dict[base_net]()
         self.use_bottleneck = use_bottleneck
-        self.bottleneck_layer_list = [nn.Linear(self.backbone.output_num(), bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU(), nn.Dropout(0.5)]
-        self.bottleneck = nn.Sequential(*self.bottleneck_layer_list)
-        self.head = nn.Linear(bottleneck_dim, class_num)        
+        
+        #source classifier
+        self.fcb_s = [nn.Linear(self.backbone.output_num(), bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fcb_s = nn.Sequential(*self.fcb_s)
+
+        self.fcc_s = [nn.Linear(bottleneck_dim, bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fcc_s = nn.Sequential(*self.fcc_s)
+
+        self.fc1_s = [nn.Linear(bottleneck_dim, bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fc1_s = nn.Sequential(*self.fc1_s)
+
+        self.fc2_s = [nn.Linear(bottleneck_dim, bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fc2_s = nn.Sequential(*self.fc2_s)
+
+        self.head_s = nn.Linear(bottleneck_dim, class_num)
+
+        #target classifier
+        self.fcb_t = [nn.Linear(self.backbone.output_num(), bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fcb_t = nn.Sequential(*self.fcb_t)
+
+        self.fcc_t = [nn.Linear(bottleneck_dim, bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU()]
+        self.fcc_t = nn.Sequential(*self.fcc_t)
+        self.head_t = nn.Linear(bottleneck_dim, class_num)
         self.softmax = nn.Softmax(dim=1)
-        self.sigmoid = nn.Sigmoid()
+ 
         ## initialization
-        self.bottleneck[0].weight.data.normal_(0, 0.005)
-        self.bottleneck[0].bias.data.fill_(0.1)
-        self.head.weight.data.normal_(0, 0.01)
-        self.head.bias.data.fill_(0.0)
+        self.fcb_s[0].weight.data.normal_(0, 0.005)
+        self.fcb_s[0].bias.data.fill_(0.1)
+
+        self.fcc_s[0].weight.data.normal_(0, 0.005)
+        self.fcc_s[0].bias.data.fill_(0.1)
+
+        self.fc1_s[0].weight.data.normal_(0, 0.005)
+        self.fc1_s[0].bias.data.fill_(0.1)
+
+        self.fc2_s[0].weight.data.normal_(0, 0.005)
+        self.fc2_s[0].bias.data.fill_(0.1)
+
+        self.fcb_t[0].weight.data.normal_(0, 0.005)
+        self.fcb_t[0].bias.data.fill_(0.1)
+
+        self.fcc_t[0].weight.data.normal_(0, 0.005)
+        self.fcc_t[0].bias.data.fill_(0.1)
+
+        self.head_s.weight.data.normal_(0, 0.01)
+        self.head_s.bias.data.fill_(0.0)
+
+        self.head_t.weight.data.normal_(0, 0.01)
+        self.head_t.bias.data.fill_(0.0)
 
         self.parameter_list = [{"params": self.backbone.parameters(), "lr": 0.1},
-                                {"params": self.bottleneck.parameters(), "lr": 1.},
-                                {"params": self.head.parameters(), "lr": 1.},]
+                                {"params": self.fcb_s.parameters(), "lr": 1.},
+                                {"params": self.fcc_s.parameters(), "lr": 1.},
+                                {"params": self.fc1_s.parameters(), "lr": 1.},
+                                {"params": self.fc2_s.parameters(), "lr": 1.},
+                                {"params": self.fcb_t.parameters(), "lr": 1.},
+                                {"params": self.fcc_t.parameters(), "lr": 1.},
+                                {"params": self.head_s.parameters(), "lr": 1.},
+                                {"params": self.head_t.parameters(), "lr": 1.},]
 
-    def forward(self, inputs):
-        features = self.backbone(inputs)
-        if self.use_bottleneck:
-            features = self.bottleneck(features)
-        logits = self.head(features)
-        softmax_outputs = self.softmax(logits)
+    def forward(self, source_input, target_input):
+        features_s = self.backbone(source_input)
+        features_t = self.backbone(target_input)
+        fcb_s = self.fcb_s(features_s)
+        fcb_t = self.fcb_t(features_t)
+        fcc_s = self.fcc_s(fcb_s)
+        fcc_t = self.fcc_t(fcb_t)
+        fc1_s = self.fc1_s(fcc_s)
+        fc2_s = self.fc2_s(fc1_s)
+        fc2_s_t = fc2_s + fcc_t
+        logits_s = self.head_s(fc2_s_t)
+        logits_t = self.head_t(fcc_t)
+        softmax_outputs_s = self.softmax(logits_s)
+        softmax_outputs_t = self.softmax(logits_t)
+        return logits_s, logits_t, softmax_outputs_s, softmax_outputs_t, fcb_s, fcc_s, fcb_t, fcc_t
 
-        return features, logits, softmax_outputs
-
-class DAN(object):
+class RTN(object):
     def __init__(self, base_net='ResNet50', width=1024, class_num=31, use_bottleneck=True, use_gpu=True, srcweight=3):
-        self.c_net = DANNet(base_net, use_bottleneck, width, width, class_num)
+        self.c_net = RTNNet(base_net, use_bottleneck, width, width, class_num)
         self.mkmmd_loss = MultipleKernelMaximumMeanDiscrepancy(kernels=[GaussianKernel(alpha=2 ** k) for k in range(-3, 2)], linear= False, quadratic_program=False)
         self.use_gpu = use_gpu
         self.is_train = False
@@ -61,21 +114,26 @@ class DAN(object):
         kernels=[GaussianKernel(alpha=2 ** k) for k in range(-3, 2)],
         linear= False, quadratic_program=False)
 
-        features, logits, softmax_outputs = self.c_net(inputs)
+        #need to split source and target inputs.
+        source_input = inputs.narrow(0, 0, labels_source.size(0))
+        target_input = inputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
 
-        outputs_source = logits.narrow(0, 0, labels_source.size(0))
+        logits_s, _, _, softmax_outputs_t, fcb_s, fcc_s, fcb_t, fcc_t = self.c_net(source_input, target_input)
 
-        source_features = features.narrow(0, 0, labels_source.size(0))
-        target_features = features.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+        outputs_source = logits_s
+
+        source_features = torch.mul(fcb_s, fcc_s)
+        target_features = torch.mul(fcb_t, fcc_t)
 
         classifier_loss = class_criterion(outputs_source, labels_source)
         transfer_loss = mkmmd_loss(source_features, target_features)
-        total_loss = classifier_loss + 1.0*transfer_loss
+        entropy_loss = entropy(softmax_outputs_t)
+        total_loss = classifier_loss + 0.3*transfer_loss + 0.3*entropy_loss
         return [total_loss, classifier_loss, transfer_loss]
 
-    def predict(self, inputs):
-        feature, _, softmax_outputs= self.c_net(inputs)
-        return softmax_outputs, feature
+    def predict(self, source_input, target_input):
+        _, _, softmax_outputs_s, _, _, _, _, _ = self.c_net(source_input, target_input)
+        return softmax_outputs_s
 
     def get_parameter_list(self):
         return self.c_net.parameter_list
@@ -85,7 +143,15 @@ class DAN(object):
         self.mkmmd_loss.train(mode)
         self.is_train = mode
 
-
+def entropy(output_target):
+    """
+    entropy minimization loss on target domain data
+    """
+    #softmax = nn.Softmax(dim=1)
+    output = output_target
+    #output = softmax(output)
+    en = -torch.sum((output*torch.log(output + 1e-8)), 1)
+    return torch.mean(en)
 
 class MultipleKernelMaximumMeanDiscrepancy(nn.Module):
     r"""The Multiple Kernel Maximum Mean Discrepancy (MK-MMD) used in
