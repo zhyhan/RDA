@@ -40,7 +40,7 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        _, _, probabilities = model_instance.predict(inputs)
+        probabilities, _ = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
@@ -57,7 +57,7 @@ def evaluate(model_instance, input_loader):
     model_instance.set_train(ori_train_state)
     return {'accuracy':accuracy}
 
-def train(model_instance, train_source_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
+def train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
     model_instance.set_train(True)
     print("start train...")
     loss = [] #accumulate total loss for visulization.
@@ -66,21 +66,23 @@ def train(model_instance, train_source_loader, test_target_loader, group_ratios,
     epoch = 0
     total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
     while True:
-        for datas_clean in tqdm.tqdm(
-                train_source_loader,
-                total=len(train_source_loader),
+        for (datas_clean, datas_noisy, datat) in tqdm.tqdm(
+                zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
+                total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):
             inputs_source, labels_source, _ = datas_clean
+            inputs_source_noisy, labels_source_noisy, _ = datas_noisy
+            inputs_target, labels_target, _ = datat
 
             optimizer = lr_scheduler.next_optimizer(group_ratios, optimizer, iter_num/5)
             optimizer.zero_grad()
 
             if model_instance.use_gpu:
-                inputs_source, labels_source = Variable(inputs_source).cuda(), Variable(labels_source).cuda()
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source).cuda(),  Variable(inputs_source_noisy).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda(), Variable(labels_source_noisy).cuda()
             else:
-                inputs_source, labels_source = Variable(inputs_source), Variable(labels_source)
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source),  Variable(inputs_source_noisy), Variable(inputs_target), Variable(labels_source), Variable(labels_source_noisy)
 
-            total_loss = train_batch(model_instance, inputs_source, labels_source, optimizer, iter_num, max_iter)
+            total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter)
 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
@@ -97,17 +99,17 @@ def train(model_instance, train_source_loader, test_target_loader, group_ratios,
         if iter_num > max_iter:
             break
     print('finish train')
-    #torch.save(model_instance.c_net.state_dict(), 'statistic/DANN_model.pth')
+    #torch.save(model_instance.c_net.state_dict(), 'statistic/TCL_model.pth')
     return [loss, result]
-def train_batch(model_instance, inputs_source, labels_source, optimizer, iter_num, max_iter):
-    inputs = inputs_source
+def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter):
+    inputs = torch.cat((inputs_source, inputs_target), dim=0)
     total_loss = model_instance.get_loss(inputs, labels_source)
     total_loss.backward()
     optimizer.step()
     return total_loss.cpu().data.numpy()
 
 if __name__ == '__main__':
-    from model.Resnet import ResNetModel
+    from model.Mentor import Mentor
     from preprocess.data_provider import load_images
     import pickle
 
@@ -150,13 +152,16 @@ if __name__ == '__main__':
     else:
         width = -1
 
-    model_instance = MDD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
+    model_instance = Mentor(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
 
-    train_source_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
+    train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
+    train_source_noisy_loader = train_source_clean_loader
+    train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)
     test_target_loader = load_images(target_file, batch_size=32, is_train=False)
 
     param_groups = model_instance.get_parameter_list()
     group_ratios = [group['lr'] for group in param_groups]
+    #group_ratios.append(group['lr'] for group in param_groups[1])
 
     assert cfg.optim.type == 'sgd', 'Optimizer type not supported!'
 
@@ -166,5 +171,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump = train(model_instance, train_source_loader, test_target_loader, group_ratios, max_iter=20000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
+    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=20000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
     pickle.dump(to_dump, open(args.stats_file, 'wb'))

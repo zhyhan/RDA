@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+# #!/usr/bin/env bash
 
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2W"
 SOURCE="amazon"
 TARGET="webcam"
@@ -15,7 +15,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -27,7 +27,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2A"
 SOURCE="webcam"
 TARGET="amazon"
@@ -39,7 +39,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -51,7 +51,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2D"
 SOURCE="amazon"
 TARGET="dslr"
@@ -63,7 +63,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -75,7 +75,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2A"
 SOURCE="dslr"
 TARGET="amazon"
@@ -87,7 +87,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -99,7 +99,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2D"
 SOURCE="webcam"
 TARGET="dslr"
@@ -111,7 +111,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -123,7 +123,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2W"
 SOURCE="dslr"
 TARGET="webcam"
@@ -135,7 +135,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -151,7 +151,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2W"
 SOURCE="amazon"
 TARGET="webcam"
@@ -163,7 +163,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -175,7 +175,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2A"
 SOURCE="webcam"
 TARGET="amazon"
@@ -187,7 +187,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -199,7 +199,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2D"
 SOURCE="amazon"
 TARGET="dslr"
@@ -211,7 +211,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -223,7 +223,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2A"
 SOURCE="dslr"
 TARGET="amazon"
@@ -235,7 +235,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -247,7 +247,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2D"
 SOURCE="webcam"
 TARGET="dslr"
@@ -259,7 +259,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -271,7 +271,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2W"
 SOURCE="dslr"
 TARGET="webcam"
@@ -283,7 +283,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -296,7 +296,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2W"
 SOURCE="amazon"
 TARGET="webcam"
@@ -308,7 +308,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -320,7 +320,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2A"
 SOURCE="webcam"
 TARGET="amazon"
@@ -332,7 +332,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -344,7 +344,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="A2D"
 SOURCE="amazon"
 TARGET="dslr"
@@ -356,7 +356,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -368,7 +368,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2A"
 SOURCE="dslr"
 TARGET="amazon"
@@ -380,7 +380,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -392,7 +392,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="W2D"
 SOURCE="webcam"
 TARGET="dslr"
@@ -404,7 +404,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
@@ -416,7 +416,7 @@ python trainer/RTN_train.py \
 export CUDA_VISIBLE_DEVICES=0
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="RTN"
+ALGORITHM="SPL"
 PROJ_NAME="D2W"
 SOURCE="dslr"
 TARGET="webcam"
@@ -428,7 +428,7 @@ DATASET="Office-31"
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/RTN_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
