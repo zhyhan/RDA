@@ -34,7 +34,7 @@ If you use this code for your research, please consider citing:
   pages     = {2269--2276},
   year      = {2020},
   month     = {7},
-  note      = {Main track}
+  note      = {Main track},
   doi       = {10.24963/ijcai.2020/314},
   url       = {https://doi.org/10.24963/ijcai.2020/314},
 }

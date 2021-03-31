@@ -49,9 +49,7 @@ class ResNetPlus(nn.Module):
 
         ## collect parameters
         self.parameter_list = [{"params":self.base_network.parameters(), "lr":0.1},
-                            {"params":self.bottleneck_layer.parameters(), "lr":1},
-                        {"params":self.classifier_layer.parameters(), "lr":1},
-                               {"params":self.classifier_layer_2.parameters(), "lr":1}]
+                            {"params":self.bottleneck_layer.parameters(), "lr":1}]
 
     def T_scaling(self, logits, temperature):
         temperature = temperature.unsqueeze(1).expand(logits.size(0), logits.size(1))
@@ -61,7 +59,6 @@ class ResNetPlus(nn.Module):
         if self.use_bottleneck:
             features = self.bottleneck_layer(features)
         outputs = self.classifier_layer(features)
-        #TODO: add temperature scaling
         #softmax_outputs = self.softmax(self.T_scaling(outputs, self.temperature))
         softmax_outputs = self.softmax(outputs)
 

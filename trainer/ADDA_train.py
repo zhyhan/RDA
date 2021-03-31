@@ -2,9 +2,7 @@ import tqdm
 import argparse
 from torch.autograd import Variable
 import torch
-import warnings
 import copy
-warnings.filterwarnings("ignore")
 import sys
 sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
 from utils.config import Config

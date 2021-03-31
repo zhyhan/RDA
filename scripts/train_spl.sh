@@ -1,4 +1,4 @@
-# #!/usr/bin/env bash
+#!/usr/bin/env bash
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -143,9 +143,6 @@ python trainer/SPL_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
-
-
-
 
 
 export CUDA_VISIBLE_DEVICES=0

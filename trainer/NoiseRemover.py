@@ -4,8 +4,6 @@ import argparse
 from torch.autograd import Variable
 import torch
 import numpy as np
-import warnings
-warnings.filterwarnings("ignore")
 import sys
 sys.path.insert(0, "/home/ubuntu/nas/projects/RDA")
 from utils.config import Config
@@ -116,7 +114,7 @@ def train_batch(model_instance, inputs_source, labels_source, optimizer):
     optimizer.step()
 
 if __name__ == '__main__':
-    from model.Resnet import MDD
+    from model.Resnet import ResNetModel
     from preprocess.data_provider import load_images
     import pickle
 
@@ -167,7 +165,7 @@ if __name__ == '__main__':
     else:
         width = -1
 
-    model_instance = MDD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
+    model_instance = ResNetModel(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
     if args.noisy_rate == 0.:
         train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
         train_source_noisy_loader = train_source_clean_loader
