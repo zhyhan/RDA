@@ -10,7 +10,7 @@ class RDANet(nn.Module):
         ## set base network
         self.base_network = backbone.network_dict[base_net]()
         self.use_bottleneck = use_bottleneck
-        self.grl_layer = WarmStartGradientReverseLayer(alpha=1., lo=0., hi=1., max_iters=1000, auto_step=True)
+        self.grl_layer = WarmStartGradientReverseLayer(alpha=1.0, lo=0.0, hi=0.1, max_iters=1000., auto_step=True)
         self.bottleneck_layer_list = [nn.Linear(self.base_network.output_num(), bottleneck_dim), nn.BatchNorm1d(bottleneck_dim), nn.ReLU(), nn.Dropout(0.5)]
         self.bottleneck_layer = nn.Sequential(*self.bottleneck_layer_list)
         self.classifier_layer_list = [nn.Linear(bottleneck_dim, width), nn.ReLU(), nn.Dropout(0.5),
@@ -86,7 +86,7 @@ class PMD(object):
         outputs_adv_noisy = outputs_adv.narrow(0, source_size+target_size, source_noisy_size)
 
         outputs_adv_src = outputs_adv_src[index_src]
-        target_adv_src = target_adv_src[index_src]
+        target_adv_src = target_adv_src[index_src] 
         #classifier_loss_adv_src = class_criterion(torch.cat((outputs_adv_src, outputs_adv_noisy),dim=0), \
         #    torch.cat((target_adv_src, target_adv_noisy), dim=0))
         classifier_loss_adv_src = class_criterion(outputs_adv_src, target_adv_src)
@@ -94,11 +94,11 @@ class PMD(object):
         logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv_tgt, dim = 1), min=1e-15))
         classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
 
-        #Todo: compute entropy loss of unlabeled examples.
         en_loss = entropy(outputs_adv_tgt) + entropy(outputs_adv_noisy) #+ entropy(outputs_adv_src)
         transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
 
         self.iter_num += 1
+        #total_loss = classifier_loss + transfer_loss + 0.1*en_loss
         total_loss = classifier_loss + transfer_loss + 0.1*en_loss
         #print(classifier_loss.data, transfer_loss.data, en_loss.data)
         return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
