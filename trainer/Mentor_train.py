@@ -64,21 +64,20 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
     epoch = 0
     total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
     while True:
-        for (datas_clean, datas_noisy, datat) in tqdm.tqdm(
-                zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
+        for (datas_clean, datat) in tqdm.tqdm(
+                zip(train_source_clean_loader, train_target_loader),
                 total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):
             inputs_source, labels_source, _ = datas_clean
-            inputs_source_noisy, labels_source_noisy, _ = datas_noisy
             inputs_target, labels_target, _ = datat
 
             optimizer = lr_scheduler.next_optimizer(group_ratios, optimizer, iter_num/5)
             optimizer.zero_grad()
 
             if model_instance.use_gpu:
-                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source).cuda(),  Variable(inputs_source_noisy).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda(), Variable(labels_source_noisy).cuda()
+                inputs_source, inputs_target, labels_source = Variable(inputs_source).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda()
             else:
-                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source),  Variable(inputs_source_noisy), Variable(inputs_target), Variable(labels_source), Variable(labels_source_noisy)
+                inputs_source, inputs_target, labels_source = Variable(inputs_source),  Variable(inputs_target), Variable(labels_source)
 
             total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter)
 
@@ -142,7 +141,11 @@ if __name__ == '__main__':
         width = 256
         srcweight = 2
         is_cen = False
-
+    elif args.dataset == 'COVID-19':
+        class_num = 3
+        width = 256
+        srcweight = 4
+        is_cen = False
         # Another choice for Office-home:
         # width = 1024
         # srcweight = 3

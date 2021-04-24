@@ -232,6 +232,11 @@ if __name__ == '__main__':
         width = 256
         srcweight = 2
         is_cen = False
+    elif args.dataset == 'COVID-19':
+        class_num = 3
+        width = 256
+        srcweight = 4
+        is_cen = False
     else:
         width = -1
 

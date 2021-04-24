@@ -22,7 +22,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-     >> ${LOG_FILE}  2>&1
+     #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -46,7 +46,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -70,7 +70,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -94,7 +94,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -118,7 +118,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -142,7 +142,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 
 
@@ -170,7 +170,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -194,7 +194,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -218,7 +218,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -242,7 +242,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -266,7 +266,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -290,7 +290,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 
 export CUDA_VISIBLE_DEVICES=0
@@ -315,7 +315,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -339,7 +339,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -363,7 +363,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -387,7 +387,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -411,7 +411,7 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -435,4 +435,4 @@ python trainer/Mentor_train.py \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1

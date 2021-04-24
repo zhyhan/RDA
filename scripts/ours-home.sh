@@ -24,7 +24,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -50,7 +50,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -76,7 +76,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -102,7 +102,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -128,7 +128,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -154,7 +154,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -180,7 +180,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -206,7 +206,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -232,7 +232,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -258,7 +258,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -284,7 +284,7 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 export CUDA_VISIBLE_DEVICES=0
 
@@ -310,6 +310,6 @@ python trainer/RDA_train.py \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     --del_rate ${DEL_RATE} \
-    >> ${LOG_FILE}  2>&1
+    #>> ${LOG_FILE}  2>&1
 
 

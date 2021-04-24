@@ -12,10 +12,13 @@ def listing_file(domains, data_dir, save_dir):
         str_labels, num_labels = [], []
         file_dir = data_dir + d + '/*/*'
         save_file = save_dir + d + '.txt'
+        if not os.path.exists(save_dir):
+            os.mkdir(save_dir)
         img_files = glob.glob(file_dir, recursive=True)
         label, first = 0, True
         for img in img_files:
-            str_label = img.split('/')[7]
+            str_label = img.split('/')[8]
+            print(str_label)
             if first:
                 num_labels.append(label)
                 str_labels.append(str_label)
@@ -128,7 +131,7 @@ def corrupt_image(file_dir):
 
 if __name__ == '__main__':
 
-    dataset = 'office-home' # or office-home
+    dataset = 'COVID-19' # or office-home
 
     if dataset is 'office-home':
         class_number = 65
@@ -138,10 +141,18 @@ if __name__ == '__main__':
         save_dir = 'Office-home/'
     elif dataset is 'office-31':
         class_number = 31
-        data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
+        #data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
+        data_files = ['Office-31/amazon.txt']
         domains = ['webcam', 'dslr', 'amazon']
         data_dir = '/home/ubuntu/nas/datasets/office/office-31/'
         save_dir = 'Office-31/'
+    elif dataset is 'COVID-19':
+        class_number = 3
+        #data_files = ['Office-31/webcam.txt', 'Office-31/dslr.txt', 'Office-31/amazon.txt']
+        data_files = ['COVID-19/source.txt']#, 'COVID-19/target.txt']
+        domains = ['source', 'target']
+        data_dir = '/home/ubuntu/nas/datasets/COVID-19/DAXray/'
+        save_dir = 'COVID-19/'
     else:
         raise Exception("Sorry, unsupported dataset")
 
@@ -193,23 +204,23 @@ if __name__ == '__main__':
 
         print('complete corrupting labels!')
         """
-        """
+        
         #Todo: noisy feature
-        noisy_feature_rate = [0.1,0.2,0.3,0.4,0.6,0.8]
-        for rate in noisy_feature_rate:
-            save_file = data_file.split('.')[0] + '_feature_noisy_{}.txt'.format(rate)
-            num = 0
-            with open(save_file, 'w') as f:
-                for i, d in enumerate(file_dir):
-                    rdn = random.random()
-                    if rdn < rate:
-                        num+=1
-                        d = d.split('.')[0] + '_corrupted.jpg'
-                    f.write('{} {}\n'.format(d, label[i]))
-            print('feature noise true/given {}/{}'.format(float(num)/len(file_dir), rate))
-        print('complete corrupting features!')
-        """
-    
+        # noisy_feature_rate = [0.2]#[0.1,0.2,0.3,0.4,0.6,0.8]
+        # for rate in noisy_feature_rate:
+        #     save_file = data_file.split('.')[0] + '_feature_noisy_{}.txt'.format(rate)
+        #     num = 0
+        #     with open(save_file, 'w') as f:
+        #         for i, d in enumerate(file_dir):
+        #             rdn = random.random()
+        #             if rdn < rate:
+        #                 num+=1
+        #                 d = d.split('.')[0] + '_corrupted.jpg'
+        #             f.write('{} {}\n'.format(d, label[i]))
+        #     print('feature noise true/given {}/{}'.format(float(num)/len(file_dir), rate))
+        # print('complete corrupting features!')
+        
+     
         #Todo: introduce out-of-distribution (ood) noise
         """
         ood_dataset = "tinyimagenet.txt" #Introduce other dataset
@@ -241,6 +252,7 @@ if __name__ == '__main__':
                         
         """
         #Todo mix: feature noise + label noise
+        noisy_rate = [0.4]
         for rate in noisy_rate:
             rate = rate #for fair comparison with TCL
             feature_noisy_file = data_file.split('.')[0] + '_feature_noisy_{}.txt'.format(rate/2)
@@ -250,6 +262,7 @@ if __name__ == '__main__':
                     file_dir.append(i.split(' ')[0])
                     label.append(int(i.split(' ')[1]))
             #noisy label
+            noisy_type = ['uniform']
             for tp in noisy_type:
                 if tp is 'pair':
                     label_noisy, acutal_noisy_rate = asymmetric_noisy(label, rate/2, class_number=class_number)
@@ -272,7 +285,7 @@ if __name__ == '__main__':
                                 f.write('{} {}\n'.format(d, label_noisy[i]))
                             else:
                                 ff.write('{} {}\n'.format(d, label_noisy[i]))
-        """ 
+        """
         #TODO mix: label noise + OOD noise
         # ood_dataset = "tinyimagenet.txt" #Introduce other dataset
         # with open(ood_dataset, 'r') as f:
