@@ -3,18 +3,19 @@
 Code release for "Towards Accurate and Robust Domain Adaptation under Noisy Environments"
 ## Prerequisites:
 
-* Python == 3.7.6
-* PyTorch ==1.2.0 (with suitable CUDA and CuDNN version)
-* torchvision == 0.2.0
+* Python == 3.7
+* PyTorch ==1.8.1 (with suitable CUDA and CuDNN version)
+* torchvision == 0.9.01
 * Numpy
 * argparse
 * easydict
-* pillow = 8.1.0
+* pillow = 2.3.5
 * tqdm
 
 ## Dataset:
 
 You need to modify the path of the image in every ".txt" in "./data".
+The COVID-19 dataset can be downloaded at the [BaiduCloud](https://pan.baidu.com/s/17KEGkPmue6jBRRq6pGVF4Q) and the code is c8kk.
 
 ## Training:
 

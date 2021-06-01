@@ -99,7 +99,7 @@ class PMD(object):
 
         self.iter_num += 1
         #total_loss = classifier_loss + transfer_loss + 0.1*en_loss
-        total_loss = classifier_loss + transfer_loss + 0.1*en_loss
+        total_loss = classifier_loss + transfer_loss #+ 0.1*en_loss
         #print(classifier_loss.data, transfer_loss.data, en_loss.data)
         return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
 

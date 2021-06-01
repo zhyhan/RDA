@@ -131,7 +131,7 @@ def corrupt_image(file_dir):
 
 if __name__ == '__main__':
 
-    dataset = 'COVID-19' # or office-home
+    dataset = 'office-31' # or office-home
 
     if dataset is 'office-home':
         class_number = 65

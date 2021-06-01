@@ -1,4 +1,5 @@
 import tqdm
+import numpy as np
 import argparse
 from torch.autograd import Variable
 import torch
@@ -38,22 +39,25 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        _, _, probabilities = model_instance.predict(inputs)
-
+        feature, _, probabilities = model_instance.predict(inputs)
         probabilities = probabilities.data.float()
         labels = labels.data.float()
+        feature = feature.data.float()
         if first_test:
             all_probs = probabilities
             all_labels = labels
             first_test = False
+            all_feature = feature
+            first_test = False
         else:
             all_probs = torch.cat((all_probs, probabilities), 0)
             all_labels = torch.cat((all_labels, labels), 0)
+            all_feature = torch.cat((all_feature, feature), 0)
 
     _, predict = torch.max(all_probs, 1)
     accuracy = torch.sum(torch.squeeze(predict).float() == all_labels).float() / float(all_labels.size()[0])
     model_instance.set_train(ori_train_state)
-    return {'accuracy':accuracy}
+    return {'accuracy':accuracy}, all_feature
 
 def train(model_instance, train_source_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
     model_instance.set_train(True)
@@ -82,7 +86,7 @@ def train(model_instance, train_source_loader, test_target_loader, group_ratios,
 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
-                eval_result = evaluate(model_instance, test_target_loader)
+                eval_result, all_feature = evaluate(model_instance, test_target_loader)
                 print('source domain:', eval_result)
                 result.append(eval_result['accuracy'].cpu().data.numpy())
 
@@ -93,6 +97,7 @@ def train(model_instance, train_source_loader, test_target_loader, group_ratios,
         epoch += 1
 
         if iter_num > max_iter:
+            #np.save('statistic/ResNet_feature_target.npy', all_feature.cpu().numpy())
             break
     print('finish train')
     #torch.save(model_instance.c_net.state_dict(), 'statistic/DANN_model.pth')

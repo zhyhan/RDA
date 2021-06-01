@@ -2,6 +2,7 @@ dataset/
 tmp/
 .pyc
 .out
+*.zip
 *.out
 =======
 # Byte-compiled / optimized / DLL files

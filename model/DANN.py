@@ -108,7 +108,7 @@ class DANN(object):
 
     def predict(self, inputs):
         feature, _, softmax_outputs,_= self.c_net(inputs)
-        return softmax_outputs,feature
+        return softmax_outputs, feature
 
     def get_parameter_list(self):
         return self.c_net.parameter_list
