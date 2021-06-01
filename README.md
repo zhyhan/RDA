@@ -1,6 +1,6 @@
 # Robust Domain Adaptation 
 
-Code release for "Towards Accurate and Robust Domain Adaptation under Noisy Environments"
+Code release for "Towards Accurate and Robust Domain Adaptation under Multiple Noisy Environments" submitted into TKDE.
 ## Prerequisites:
 
 * Python == 3.7
@@ -21,7 +21,7 @@ The COVID-19 dataset can be downloaded at the [BaiduCloud](https://pan.baidu.com
 
 You can run "./scripts/train.sh" to train and evaluate on the task. Before that, you need to change the project root, dataset (Office-home or Office-31), data address and CUDA_VISIBLE_DEVICES in the script.
 
-## Citation:
+<!-- ## Citation:
 
 If you use this code for your research, please consider citing:
 ```
@@ -39,6 +39,6 @@ If you use this code for your research, please consider citing:
   doi       = {10.24963/ijcai.2020/314},
   url       = {https://doi.org/10.24963/ijcai.2020/314},
 }
-```
+``` -->
 ## Contact
 If you have any problem about our code, feel free to contact hanzhongyicn@gmail.com
