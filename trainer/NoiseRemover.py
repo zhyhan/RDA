@@ -167,12 +167,17 @@ if __name__ == '__main__':
         width = 256
         srcweight = 4
         is_cen = False
+    elif args.dataset == 'webvision':
+        class_num = 1000
+        width = 256
+        srcweight = 4
+        is_cen = False
     else:
         width = -1
 
     model_instance = ResNetModel(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
     if args.noisy_rate == 0.:
-        train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
+        train_source_clean_loader = load_images(source_file, batch_size=128, is_cen=is_cen, split_noisy=False)
         train_source_noisy_loader = train_source_clean_loader
     else:
         train_source_clean_loader, train_source_noisy_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=True)

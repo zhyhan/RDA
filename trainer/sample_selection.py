@@ -137,7 +137,7 @@ if __name__ == '__main__':
     print(args)
     source_file = args.src_address
     #target_file = args.tgt_address
-    epoch = 30
+    epoch = 10
 
     if args.dataset == 'Office-31':
         class_num = 31
@@ -163,13 +163,18 @@ if __name__ == '__main__':
         # width = 1024
         # srcweight = 3
         # is_cen = True
+    elif args.dataset == 'webvision':
+        class_num = 1000
+        width = 256
+        srcweight = 4
+        is_cen = False
     else:
         width = -1
 
     model_instance = ResNetModel(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
 
-    train_source_loader = load_images(source_file, batch_size=32, is_cen=is_cen, drop_last=True)
-    test_source_loader = load_images(source_file, batch_size=32, is_train=False)
+    train_source_loader = load_images(source_file, batch_size=128, is_cen=is_cen, drop_last=True)
+    test_source_loader = load_images(source_file, batch_size=128, is_train=False)
 
     param_groups = model_instance.get_parameter_list()
     group_ratios = [group['lr'] for group in param_groups]
@@ -182,13 +187,13 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    loss_matrix = train(model_instance, train_source_loader, test_source_loader, group_ratios, max_iter=120000, optimizer=optimizer, lr_scheduler=lr_scheduler, max_epoch=epoch)
+    loss_matrix = train(model_instance, train_source_loader, test_source_loader, group_ratios, max_iter=1200000, optimizer=optimizer, lr_scheduler=lr_scheduler, max_epoch=epoch)
     np.save(args.stats_file, loss_matrix)
 
     #detect small loss sample
-    save_clean_file = source_file.split('.t')[0] + '_true_pred.txt'
+    save_clean_file = source_file.split('.t')[0] + '_full_true_pred.txt'
     nr = args.noisy_rate
-    save_noisy_file = source_file.split('.t')[0] + '_false_pred.txt'
+    save_noisy_file = source_file.split('.t')[0] + '_full_false_pred.txt'
     clean_labels, noise_labels, imgs = [], [], []
     if args.noisy_type == 'uniform':
         with open(source_file, 'r') as f:
@@ -262,7 +267,7 @@ if __name__ == '__main__':
                 else:
                     clean_labels.append(0)
     elif args.noisy_type == 'ood_feature_uniform':
-        nr = 0.4
+        nr = 0.6
         with open(source_file, 'r') as f:
             images = f.readlines()
             for index, i in enumerate(images):

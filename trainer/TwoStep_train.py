@@ -1,5 +1,4 @@
-import tqdm
-import numpy as np
+from tqdm import tqdm
 import argparse
 from torch.autograd import Variable
 import torch
@@ -39,56 +38,53 @@ def evaluate(model_instance, input_loader):
         else:
             inputs = Variable(inputs)
             labels = Variable(labels)
-        probabilities, feature = model_instance.predict(inputs)
+        probabilities, _ = model_instance.predict(inputs)
 
         probabilities = probabilities.data.float()
         labels = labels.data.float()
-        feature = feature.data.float()
-
         if first_test:
             all_probs = probabilities
             all_labels = labels
-            all_feature = feature            
             first_test = False
         else:
             all_probs = torch.cat((all_probs, probabilities), 0)
             all_labels = torch.cat((all_labels, labels), 0)
-            all_feature = torch.cat((all_feature, feature), 0)
 
     _, predict = torch.max(all_probs, 1)
     accuracy = torch.sum(torch.squeeze(predict).float() == all_labels).float() / float(all_labels.size()[0])
     model_instance.set_train(ori_train_state)
-    return {'accuracy':accuracy}, all_feature
+    return {'accuracy':accuracy}
 
-def train(model_instance, train_source_loader, train_target_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
+def train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter, optimizer, lr_scheduler, eval_interval):
     model_instance.set_train(True)
     print("start train...")
     loss = [] #accumulate total loss for visulization.
     result = [] #accumulate eval result on target data during training.
     iter_num = 0
     epoch = 0
-    total_progress_bar = tqdm.tqdm(desc='Train iter', total=max_iter)
+    total_progress_bar = tqdm(desc='Train iter', total=max_iter)
     while True:
-        for (datas_clean, datat) in tqdm.tqdm(
-                zip(train_source_loader, train_target_loader),
-                total=min(len(train_source_loader), len(train_target_loader)),
+        for (datas_clean, datas_noisy, datat) in tqdm(
+                zip(train_source_clean_loader, train_source_noisy_loader, train_target_loader),
+                total=min(len(train_source_clean_loader), len(train_target_loader)),
                 desc='Train epoch = {}'.format(epoch), ncols=80, leave=False):
             inputs_source, labels_source, _ = datas_clean
-            inputs_target, _, _ = datat
+            inputs_source_noisy, labels_source_noisy, _ = datas_noisy
+            inputs_target, labels_target, _ = datat
 
             optimizer = lr_scheduler.next_optimizer(group_ratios, optimizer, iter_num/5)
             optimizer.zero_grad()
 
             if model_instance.use_gpu:
-                inputs_source, inputs_target, labels_source = Variable(inputs_source).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda()
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source).cuda(),  Variable(inputs_source_noisy).cuda(), Variable(inputs_target).cuda(), Variable(labels_source).cuda(), Variable(labels_source_noisy).cuda()
             else:
-                inputs_source, inputs_target, labels_source = Variable(inputs_source), Variable(inputs_target), Variable(labels_source)
+                inputs_source, inputs_source_noisy, inputs_target, labels_source, labels_source_noisy = Variable(inputs_source),  Variable(inputs_source_noisy), Variable(inputs_target), Variable(labels_source), Variable(labels_source_noisy)
 
             total_loss = train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter)
 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
-                eval_result, all_feature = evaluate(model_instance, test_target_loader)
+                eval_result = evaluate(model_instance, test_target_loader)
                 print('source domain:', eval_result)
                 result.append(eval_result['accuracy'].cpu().data.numpy())
 
@@ -99,21 +95,18 @@ def train(model_instance, train_source_loader, train_target_loader, test_target_
         epoch += 1
 
         if iter_num > max_iter:
-            #np.save('statistic/DANN_feature_target.npy', all_feature.cpu().numpy())
             break
     print('finish train')
-    #torch.save(model_instance.c_net.state_dict(), 'statistic/DANN_model.pth')
     return [loss, result]
-    
 def train_batch(model_instance, inputs_source, labels_source, inputs_target, optimizer, iter_num, max_iter):
     inputs = torch.cat((inputs_source, inputs_target), dim=0)
     total_loss = model_instance.get_loss(inputs, labels_source)
     total_loss[0].backward()
     optimizer.step()
-    return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy()]
+    return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy(), total_loss[3].cpu().data.numpy(), total_loss[4].cpu().data.numpy()]
 
 if __name__ == '__main__':
-    from model.DANN import DANN
+    from model.MDD import MDD
     from preprocess.data_provider import load_images
     import pickle
 
@@ -140,12 +133,17 @@ if __name__ == '__main__':
 
     if args.dataset == 'Office-31':
         class_num = 31
-        width = 256
+        width = 1024
         srcweight = 4
         is_cen = False
     elif args.dataset == 'Office-home':
         class_num = 65
-        width = 256
+        width = 2048
+        srcweight = 2
+        is_cen = False
+    elif args.dataset == 'Bing-Caltech':
+        class_num = 257
+        width = 2048
         srcweight = 2
         is_cen = False
     elif args.dataset == 'COVID-19':
@@ -153,10 +151,6 @@ if __name__ == '__main__':
         width = 256
         srcweight = 4
         is_cen = False
-        # Another choice for Office-home:
-        # width = 1024
-        # srcweight = 3
-        # is_cen = True
     elif args.dataset == 'webvision':
         class_num = 1000
         width = 256
@@ -165,12 +159,13 @@ if __name__ == '__main__':
     else:
         width = -1
 
-    model_instance = DANN(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
+    model_instance = MDD(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
 
-    train_source_loader = load_images(source_file, batch_size=128, is_cen=is_cen, split_noisy=False)
-    train_target_loader = load_images(target_file, batch_size=128, is_cen=is_cen)
-    val_file = '/home/ubuntu/nas/projects/RDA/data/webvision/val_filelist.txt'
-    test_target_loader = load_images(val_file, batch_size=128, is_train=False)
+    train_source_clean_loader, _ = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=True)
+    train_source_noisy_loader = train_source_clean_loader
+    train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)
+    test_target_loader = load_images(target_file, batch_size=32, is_train=False)
+
     param_groups = model_instance.get_parameter_list()
     group_ratios = [group['lr'] for group in param_groups]
 
@@ -182,5 +177,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump = train(model_instance, train_source_loader, train_target_loader, test_target_loader, group_ratios, max_iter=100000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=10000) 
+    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=2000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
     pickle.dump(to_dump, open(args.stats_file, 'wb'))

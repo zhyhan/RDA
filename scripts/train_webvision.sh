@@ -1,144 +1,70 @@
 #!/usr/bin/env bash
 
-# export CUDA_VISIBLE_DEVICES=0
-
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="A2W"
-# SOURCE="amazon"
-# TARGET="webcam"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="ResNet"
+# PROJ_NAME="F2T"
+# SOURCE="flickr"
+# TARGET="google"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-# python trainer/TCL_train.py \
+# python trainer/ResNet_train.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
 #     >> ${LOG_FILE}  2>&1
 
-# export CUDA_VISIBLE_DEVICES=0
+
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="W2A"
-# SOURCE="webcam"
-# TARGET="amazon"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="SPL"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-# python trainer/TCL_train.py \
+# python trainer/SPL_train.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
 #     >> ${LOG_FILE}  2>&1
 
-# export CUDA_VISIBLE_DEVICES=0
+
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="A2D"
-# SOURCE="amazon"
-# TARGET="dslr"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="Mentor"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-# python trainer/TCL_train.py \
+# python trainer/Mentor_train.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
-#     --stats_file ${STATS_FILE} \
-#     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
-
-# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="D2A"
-# SOURCE="dslr"
-# TARGET="amazon"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
-
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
-#     --config ${PROJ_ROOT}/config/dann.yml \
-#     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
-#     --stats_file ${STATS_FILE} \
-#     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
-
-# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="W2D"
-# SOURCE="webcam"
-# TARGET="dslr"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
-
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
-#     --config ${PROJ_ROOT}/config/dann.yml \
-#     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
-#     --stats_file ${STATS_FILE} \
-#     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
-
-# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="D2W"
-# SOURCE="dslr"
-# TARGET="webcam"
-# NOISY_TYPE="ood" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
-
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
-#     --config ${PROJ_ROOT}/config/dann.yml \
-#     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
@@ -147,18 +73,135 @@
 
 
 
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="DAN"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
 
-# export CUDA_VISIBLE_DEVICES=0
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/DAN_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="A2W"
-# SOURCE="amazon"
-# TARGET="webcam"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="RTN"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/RTN_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
+
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="DANN"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/DANN_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
+
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="ADDA"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/ADDA_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
+
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="MDD"
+# PROJ_NAME="G2F"
+# SOURCE="google"
+# TARGET="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/MDD_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
+
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="TCL"
+# PROJ_NAME="F2T"
+# SOURCE="flickr"
+# TARGET="google"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
@@ -166,7 +209,30 @@
 # python trainer/TCL_train.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --stats_file ${STATS_FILE} \
+#     --noisy_rate ${NOISY_RATE} \
+#     >> ${LOG_FILE}  2>&1
+
+
+# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+# ALGORITHM="Butterfly"
+# PROJ_NAME="F2T"
+# SOURCE="flickr"
+# TARGET="google"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+
+# DATASET="webvision"
+
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+# python trainer/Butterfly_train.py \
+#     --config ${PROJ_ROOT}/config/dann.yml \
+#     --dataset ${DATASET} \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
@@ -175,263 +241,272 @@
 # export CUDA_VISIBLE_DEVICES=0
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="W2A"
-# SOURCE="webcam"
-# TARGET="amazon"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="sample_selection"
+# SOURCE="flickr"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+# NOISY_RATE="0.2"
+# DATASET="webvision"
 
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
+# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${SOURCE}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+# #echo "GPU: $CUDA_VISIBLE_DEVICES" > ${LOG_FILE}
+# python trainer/sample_selection.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
+#     --noisy_type ${NOISY_TYPE} \
+#     #>> ${LOG_FILE}  2>&1
 
 # export CUDA_VISIBLE_DEVICES=0
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="A2D"
-# SOURCE="amazon"
-# TARGET="dslr"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="RDA_V2"
+# PROJ_NAME="refine_covid"
+# SOURCE="flickr"
+# TARGET="source"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none,feature_uniform
+# NOISY_RATE="0.2"
+# DEL_RATE="0"
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-# python trainer/TCL_train.py \
+# python trainer/NoiseRemover.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
+#     --del_rate ${DEL_RATE} \
+# #    >> ${LOG_FILE}  2>&1
 
 # PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="D2A"
-# SOURCE="dslr"
-# TARGET="amazon"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
+# ALGORITHM="RDALTH"
+# PROJ_NAME="F2T"
+# SOURCE="flickr"
+# TARGET="google"
+# NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+# NOISY_RATE="0.2"
+# DEL_RATE="0.2"
+# DATASET="webvision"
 
 # LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 # STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-# python trainer/TCL_train.py \
+# python trainer/RDALTH_train.py \
 #     --config ${PROJ_ROOT}/config/dann.yml \
 #     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
 #     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
 #     --stats_file ${STATS_FILE} \
 #     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
-
-# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="W2D"
-# SOURCE="webcam"
-# TARGET="dslr"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
-
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
-#     --config ${PROJ_ROOT}/config/dann.yml \
-#     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
-#     --stats_file ${STATS_FILE} \
-#     --noisy_rate ${NOISY_RATE} \
-#     >> ${LOG_FILE}  2>&1
-
-# export CUDA_VISIBLE_DEVICES=0
-
-# PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-# ALGORITHM="TCLMDD"
-# PROJ_NAME="D2W"
-# SOURCE="dslr"
-# TARGET="webcam"
-# NOISY_TYPE="ood_uniform" #uniform, pair, none
-# NOISY_RATE="0.4"
-# #DEL_RATE="0.2"
-# DATASET="Office-31"
-
-# LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
-# STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
-
-# python trainer/TCL_train.py \
-#     --config ${PROJ_ROOT}/config/dann.yml \
-#     --dataset ${DATASET} \
-#     --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
-#     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
-#     --stats_file ${STATS_FILE} \
-#     --noisy_rate ${NOISY_RATE} \
+#     --del_rate ${DEL_RATE} \
 #     >> ${LOG_FILE}  2>&1
 
 
-export CUDA_VISIBLE_DEVICES=0
+
+
+
+
+
+
+
+
+
+
+
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="A2W"
-SOURCE="amazon"
-TARGET="webcam"
+ALGORITHM="ResNet"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/ResNet_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
 
-export CUDA_VISIBLE_DEVICES=0
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="W2A"
-SOURCE="webcam"
-TARGET="amazon"
+ALGORITHM="SPL"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/SPL_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
 
-export CUDA_VISIBLE_DEVICES=0
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="A2D"
-SOURCE="amazon"
-TARGET="dslr"
+ALGORITHM="Mentor"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/Mentor_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
 
-export CUDA_VISIBLE_DEVICES=0
+
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="D2A"
-SOURCE="dslr"
-TARGET="amazon"
+ALGORITHM="DAN"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/DAN_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
 
-export CUDA_VISIBLE_DEVICES=0
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="W2D"
-SOURCE="webcam"
-TARGET="dslr"
+ALGORITHM="RTN"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/RTN_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \
     >> ${LOG_FILE}  2>&1
 
-export CUDA_VISIBLE_DEVICES=0
+
 
 PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
-ALGORITHM="TCLMDD"
-PROJ_NAME="D2W"
-SOURCE="dslr"
-TARGET="webcam"
+ALGORITHM="DANN"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
 NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
-NOISY_RATE="0.6"
-#DEL_RATE="0.2"
-DATASET="Office-31"
+NOISY_RATE="0.2"
+
+DATASET="webvision"
 
 LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
 STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
 
-python trainer/TCL_train.py \
+python trainer/DANN_train.py \
     --config ${PROJ_ROOT}/config/dann.yml \
     --dataset ${DATASET} \
-    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}_${NOISY_TYPE}_noisy_${NOISY_RATE}.txt \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+    --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+    --stats_file ${STATS_FILE} \
+    --noisy_rate ${NOISY_RATE} \
+    >> ${LOG_FILE}  2>&1
+
+
+
+PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+ALGORITHM="ADDA"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+NOISY_RATE="0.2"
+
+DATASET="webvision"
+
+LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+python trainer/ADDA_train.py \
+    --config ${PROJ_ROOT}/config/dann.yml \
+    --dataset ${DATASET} \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
+    --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
+    --stats_file ${STATS_FILE} \
+    --noisy_rate ${NOISY_RATE} \
+    >> ${LOG_FILE}  2>&1
+
+
+
+PROJ_ROOT="/home/ubuntu/nas/projects/RDA"
+ALGORITHM="MDD"
+PROJ_NAME="G2F"
+SOURCE="google"
+TARGET="flickr"
+NOISY_TYPE="ood_feature_uniform" #uniform, pair, none
+NOISY_RATE="0.2"
+
+DATASET="webvision"
+
+LOG_FILE="${PROJ_ROOT}/log/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.log"
+STATS_FILE="${PROJ_ROOT}/statistic/${ALGORITHM}-${PROJ_NAME}-${NOISY_TYPE}-noisy-${NOISY_RATE}-`date +'%Y-%m-%d-%H-%M-%S'`.pkl"
+
+python trainer/MDD_train.py \
+    --config ${PROJ_ROOT}/config/dann.yml \
+    --dataset ${DATASET} \
+    --src_address ${PROJ_ROOT}/data/${DATASET}/${SOURCE}.txt \
     --tgt_address ${PROJ_ROOT}/data/${DATASET}/${TARGET}.txt \
     --stats_file ${STATS_FILE} \
     --noisy_rate ${NOISY_RATE} \

@@ -20,6 +20,7 @@ build/
 develop-eggs/
 dist/
 log/
+webvision/
 downloads/
 eggs/
 .eggs/

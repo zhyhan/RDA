@@ -4,9 +4,13 @@ from model.modules.grl import WarmStartGradientReverseLayer
 import torch.nn.functional as F
 import torch
 import numpy as np
-class RDANet(nn.Module):
+import random
+
+
+
+class MDDNet(nn.Module):
     def __init__(self, base_net='ResNet50', use_bottleneck=True, bottleneck_dim=1024, width=1024, class_num=31):
-        super(RDANet, self).__init__()
+        super(MDDNet, self).__init__()
         ## set base network
         self.base_network = backbone.network_dict[base_net]()
         self.use_bottleneck = use_bottleneck
@@ -30,11 +34,13 @@ class RDANet(nn.Module):
             self.classifier_layer[dep * 3].weight.data.normal_(0, 0.01)
             self.classifier_layer[dep * 3].bias.data.fill_(0.0)
 
+
         ## collect parameters
         self.parameter_list = [{"params":self.base_network.parameters(), "lr":0.1},
                             {"params":self.bottleneck_layer.parameters(), "lr":1},
                         {"params":self.classifier_layer.parameters(), "lr":1},
                                {"params":self.classifier_layer_2.parameters(), "lr":1}]
+
     def forward(self, inputs):
         features = self.base_network(inputs)
         if self.use_bottleneck:
@@ -46,9 +52,9 @@ class RDANet(nn.Module):
 
         return features, outputs, softmax_outputs, outputs_adv
 
-class PMD(object):
+class MDD(object):
     def __init__(self, base_net='ResNet50', width=1024, class_num=31, use_bottleneck=True, use_gpu=True, srcweight=3):
-        self.c_net = RDANet(base_net, use_bottleneck, width, width, class_num)
+        self.c_net = MDDNet(base_net, use_bottleneck, width, width, class_num)
         self.use_gpu = use_gpu
         self.is_train = False
         self.iter_num = 0
@@ -57,51 +63,29 @@ class PMD(object):
             self.c_net = self.c_net.cuda()
         self.srcweight = srcweight
 
-    def get_loss(self, inputs, labels_source, max_iter, del_rate=0.4, noisy_source_num=100):
-        class_criterion = nn.CrossEntropyLoss()
-        #introduce noisy source instances to improve the discrepancy
-        # inputs = torch.cat((inputs_source, inputs_target, labels_source_noisy), dim=0)
-        source_size, source_noisy_size, target_size = labels_source.size(0), noisy_source_num, \
-            inputs.size(0) - labels_source.size(0) - noisy_source_num
+    # def get_loss(self, inputs, labels_source):
+    #     class_criterion = nn.CrossEntropyLoss()
+    #     _, outputs, _, outputs_adv = self.c_net(inputs)
+    #     classifier_loss = class_criterion(outputs.narrow(0, 0, labels_source.size(0)), labels_source)
 
-        #gradual transition
-        lr = linear_rampup(self.iter_num, total_iter=max_iter)
+    #     target_adv = outputs.max(1)[1]
+    #     target_adv_src = target_adv.narrow(0, 0, labels_source.size(0))
+    #     target_adv_tgt = target_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
 
-        _, outputs, _, outputs_adv = self.c_net(inputs)
+    #     classifier_loss_adv_src = class_criterion(outputs_adv.narrow(0, 0, labels_source.size(0)), target_adv_src)
 
-        #compute cross entropy loss on source domain
-        #classifier_loss = class_criterion(outputs.narrow(0, 0, labels_source.size(0)), labels_source)
-        #get large loss samples index
-        outputs_src = outputs.narrow(0, 0, source_size)
-        classifier_loss, index_src = class_rank_criterion(outputs_src, labels_source, lr, del_rate)
+    #     logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0)), dim = 1), min=1e-15)) #add small value to avoid the log value expansion
 
-        #compute discrepancy
-        target_adv = outputs.max(1)[1]
-        target_adv_src = target_adv.narrow(0, 0, source_size)
-        target_adv_tgt = target_adv.narrow(0, source_size, target_size)
-        target_adv_noisy = target_adv.narrow(0, source_size+target_size, source_noisy_size)
+    #     classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
 
-        outputs_adv_src = outputs_adv.narrow(0, 0, source_size)
-        outputs_adv_tgt = outputs_adv.narrow(0, source_size, target_size)
-        outputs_adv_noisy = outputs_adv.narrow(0, source_size+target_size, source_noisy_size)
+    #     transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
 
-        outputs_adv_src = outputs_adv_src[index_src]
-        target_adv_src = target_adv_src[index_src] 
-        #classifier_loss_adv_src = class_criterion(torch.cat((outputs_adv_src, outputs_adv_noisy),dim=0), \
-        #    torch.cat((target_adv_src, target_adv_noisy), dim=0))
-        classifier_loss_adv_src = class_criterion(outputs_adv_src, target_adv_src)
-
-        logloss_tgt = torch.log(torch.clamp(1 - F.softmax(outputs_adv_tgt, dim = 1), min=1e-15))
-        classifier_loss_adv_tgt = F.nll_loss(logloss_tgt, target_adv_tgt)
-
-        en_loss = entropy(outputs_adv_tgt) + entropy(outputs_adv_noisy) #+ entropy(outputs_adv_src)
-        transfer_loss = self.srcweight * classifier_loss_adv_src + classifier_loss_adv_tgt
-
-        self.iter_num += 1
-        #total_loss = classifier_loss + transfer_loss + 0.1*en_loss
-        total_loss = classifier_loss + transfer_loss + 0.1*en_loss
-        #print(classifier_loss.data, transfer_loss.data, en_loss.data)
-        return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
+    #     outputs_target = outputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
+    #     #en_loss = entropy(outputs_target)
+    #     self.iter_num += 1
+    #     total_loss = classifier_loss + transfer_loss #+ 0.1*en_loss
+    #     #print(classifier_loss.data, transfer_loss.data, en_loss.data)
+    #     return [total_loss, classifier_loss, transfer_loss, classifier_loss_adv_src, classifier_loss_adv_tgt]
 
     def predict(self, inputs):
         feature, _, softmax_outputs,_= self.c_net(inputs)
@@ -114,13 +98,8 @@ class PMD(object):
         self.c_net.train(mode)
         self.is_train = mode
 
-    def get_loss_without_unlabeled_data(self, inputs, labels_source, max_iter, del_rate=0.4):
+    def get_loss(self, inputs, labels_source, max_iter=20000, del_rate=0.6):
         class_criterion = nn.CrossEntropyLoss()
-
-        #mixup inputs between source and target data
-        #TODO Random concat samples into new distribution.
-        #source_input = inputs.narrow(0, 0, labels_source.size(0))
-        #target_input = inputs.narrow(0, labels_source.size(0), inputs.size(0) - labels_source.size(0))
 
         #gradual transition
         lr = linear_rampup(self.iter_num, total_iter=max_iter)

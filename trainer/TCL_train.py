@@ -91,7 +91,7 @@ def train(model_instance, train_source_clean_loader, train_source_noisy_loader, 
             #val
             if iter_num % eval_interval == 0 and iter_num != 0:
                 eval_result, all_feature = evaluate(model_instance, test_target_loader)
-                print('source domain:', eval_result)
+                print('target domain:', eval_result)
                 result.append(eval_result['accuracy'].cpu().data.numpy())
 
             iter_num += 1
@@ -114,7 +114,7 @@ def train_batch(model_instance, inputs_source, labels_source, inputs_target, opt
     return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy()]
 
 if __name__ == '__main__':
-    from model.TCL import TCL
+    from model.TCLMDD import TCL
     from preprocess.data_provider import load_images
     import pickle
 
@@ -158,16 +158,21 @@ if __name__ == '__main__':
         # width = 1024
         # srcweight = 3
         # is_cen = True
+    elif args.dataset == 'webvision':
+        class_num = 1000
+        width = 256
+        srcweight = 4
+        is_cen = False
     else:
         width = -1
 
     model_instance = TCL(base_net='ResNet50', width=width, use_gpu=True, class_num=class_num, srcweight=srcweight)
 
-    train_source_clean_loader = load_images(source_file, batch_size=32, is_cen=is_cen, split_noisy=False)
+    train_source_clean_loader = load_images(source_file, batch_size=128, is_cen=is_cen, split_noisy=False)
     train_source_noisy_loader = train_source_clean_loader
-    train_target_loader = load_images(target_file, batch_size=32, is_cen=is_cen)
-    test_target_loader = load_images(target_file, batch_size=32, is_train=False)
-
+    train_target_loader = load_images(target_file, batch_size=128, is_cen=is_cen)
+    val_file = '/home/ubuntu/nas/projects/RDA/data/webvision/val_filelist.txt'
+    test_target_loader = load_images(val_file, batch_size=128, is_train=False)
     param_groups = model_instance.get_parameter_list()
     group_ratios = [group['lr'] for group in param_groups]
 
@@ -179,5 +184,5 @@ if __name__ == '__main__':
     lr_scheduler = INVScheduler(gamma=cfg.lr_scheduler.gamma,
                                 decay_rate=cfg.lr_scheduler.decay_rate,
                                 init_lr=cfg.init_lr)
-    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=20000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=1000)
+    to_dump = train(model_instance, train_source_clean_loader, train_source_noisy_loader, train_target_loader, test_target_loader, group_ratios, max_iter=100000, optimizer=optimizer, lr_scheduler=lr_scheduler, eval_interval=10000)
     pickle.dump(to_dump, open(args.stats_file, 'wb'))

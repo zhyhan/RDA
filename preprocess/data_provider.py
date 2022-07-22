@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from .data_list import ImageList
 import torch.utils.data as util_data
 from torchvision import transforms
@@ -69,11 +70,14 @@ def load_images(images_file_path, batch_size, resize_size=256, is_train=True, cr
         if split_noisy:
             clean_images = ImageList(open(images_file_path.split('.t')[0]+'_true_pred.txt').readlines(), transform=transformer)
             noisy_images = ImageList(open(images_file_path.split('.t')[0]+'_false_pred.txt').readlines(), transform=transformer)
-            clean_loader = util_data.DataLoader(clean_images, batch_size=batch_size, shuffle=True, num_workers=4)
-            noisy_loader = util_data.DataLoader(noisy_images, batch_size=batch_size, shuffle=False, num_workers=4)
+            clean_loader = util_data.DataLoader(clean_images, batch_size=batch_size, shuffle=True, num_workers=8)
+            noisy_loader = util_data.DataLoader(noisy_images, batch_size=batch_size, shuffle=False, num_workers=8)
             return clean_loader, noisy_loader
         else:
-            images = ImageList(open(images_file_path).readlines(), transform=transformer)
-            images_loader = util_data.DataLoader(images, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=drop_last)
+            if not isinstance(images_file_path, list):
+                images = ImageList(open(images_file_path).readlines(), transform=transformer)
+            else:
+                images = ImageList(images_file_path, transform=transformer)
+            images_loader = util_data.DataLoader(images, batch_size=batch_size, shuffle=True, num_workers=8, drop_last=drop_last)
             return images_loader
 

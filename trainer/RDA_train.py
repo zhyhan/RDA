@@ -116,7 +116,7 @@ def train_batch(model_instance, inputs_source, labels_source, inputs_target, opt
     total_loss = model_instance.get_loss(inputs, labels_source, max_iter, del_rate=del_rate, noisy_source_num=len(inputs_source_noisy))
     total_loss[0].backward()
     optimizer.step()
-    return [total_loss[0].cpu().data.numpy(), total_loss[1].cpu().data.numpy(), total_loss[2].cpu().data.numpy(), total_loss[3].cpu().data.numpy(), total_loss[4].cpu().data.numpy()]
+    return total_loss
 
 if __name__ == '__main__':
     from model.RDA import PMD
@@ -164,6 +164,11 @@ if __name__ == '__main__':
         is_cen = False
     elif args.dataset == 'COVID-19':
         class_num = 3
+        width = 256
+        srcweight = 4
+        is_cen = False
+    elif args.dataset == 'webvision':
+        class_num = 1000
         width = 256
         srcweight = 4
         is_cen = False
